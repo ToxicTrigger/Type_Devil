@@ -2,7 +2,7 @@ package toxic.mine.typed.neuron;
 
 public abstract class NeuronDocker{
 	
-	public static void disconnecting(Neuron out , Neuron in){
+	public static void disconnect(Neuron out , Neuron in){
 		in.setState(NeuronState.Idle);
 		in.updateState();
 		out.setState(NeuronState.Idle);
