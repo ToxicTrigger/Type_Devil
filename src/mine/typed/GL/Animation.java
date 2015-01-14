@@ -50,6 +50,7 @@ public class Animation {
 		return num;
 	}
 	
+	
 	private final float frameDuration;
 	
 	public float getFrameDuration(){
