@@ -10,6 +10,47 @@ import mine.typed.core.game.HitBox;
  * 
  */
 public class OverlapTester {
+	
+	
+	public static boolean overlap(Diagram a, Diagram b){
+		Circle cirA = null;
+		Rectangle rectA = null;
+		if( a instanceof Circle ){
+			cirA = (Circle) a;
+		}else{
+			rectA = (Rectangle) a;
+		}
+		Circle cirB = null;
+		Rectangle rectB = null;
+		if( b instanceof Circle ){
+			cirB = (Circle) b;
+		}else{
+			rectB = (Rectangle) b;
+		}
+		
+		boolean overlaped = false;
+		if(cirA == null & cirB == null){
+			overlaped = overlapRectangles(rectA, rectB);
+			return overlaped;
+		}
+		if(cirA != null & cirB != null){
+			overlaped = overlapCircles(cirA, cirB);
+			return overlaped;
+		}
+		if(cirA == null & cirB != null){
+			overlaped = overlapCircleRectangle(cirB, rectA);
+			return overlaped;
+		}
+		if(cirA != null & cirB == null){
+			overlaped = overlapCircleRectangle(cirA, rectB);
+			return overlaped;
+		}
+		
+		return overlaped;
+		
+	}
+	
+	
 	/**
 	 * 두 원의 충돌 여부를 확인
 	 * 

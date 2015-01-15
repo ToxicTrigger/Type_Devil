@@ -1,26 +1,22 @@
 package mine.typed.GL.Test;
 
-import mine.typed.core.lua.LuaFTest;
+import mine.typed.core.Circle;
+import mine.typed.core.OverlapTester;
+import mine.typed.core.Rectangle;
+import mine.typed.core.V2;
+import mine.typed.core.game.HitBox;
 
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 
 public class Main{
 
 	public static void main(String[] arg){
 		
-		Globals globals = JsePlatform.standardGlobals();
-		LuaValue chunk = globals.loadString("print 'TypeLua Test <Main>'", "hi");
-		chunk.call();
+		Circle c = new Circle(new V2(0 , 0), 10);
+		Rectangle r = new Rectangle(new V2(0 , 2), 10, 10);
+		HitBox h = new HitBox(5, 0, 10, 10);
 		
-		new LuaFTest().call();
-		//파일을 불러올때 프로젝트의 가장 최상단에서 부터 시작하는 것 같다.
-		LuaValue loadFile = globals.loadFile("mode/lua/hello.lua");
-		loadFile.call();
-
-		System.out.println();
+		System.out.println(OverlapTester.overlap(r, h));
 		
 	}
 

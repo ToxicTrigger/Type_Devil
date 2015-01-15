@@ -7,7 +7,7 @@ package mine.typed.core;
  * @author mrminer
  *
  */
-public class Rectangle {
+public class Rectangle extends Diagram {
 	public final V2 lowerLeft;
 	public float width, height;
 

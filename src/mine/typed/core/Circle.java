@@ -9,7 +9,7 @@ package mine.typed.core;
  * @author mrminer
  * 
  */
-public class Circle {
+public class Circle extends Diagram{
 	public final V2 center = new V2( );
 	public float radius;
 
