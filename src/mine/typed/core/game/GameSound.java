@@ -14,6 +14,8 @@ public class GameSound extends DynamicGameObject {
 
 	public Sound sound;
 	public Music music;
+	
+	float l , r;
 
 	/**
 	 * 사운드는 하나의 점으로 판단합니다.
@@ -24,6 +26,7 @@ public class GameSound extends DynamicGameObject {
 	 */
 	public GameSound( float x , float y , float r , Sound sound ) {
 		super( x , y , r );
+		this.sound = sound;
 	}
 
 	/**
@@ -35,8 +38,16 @@ public class GameSound extends DynamicGameObject {
 	 */
 	public GameSound( float x , float y , float r , Music music ) {
 		super( x , y , r );
+		this.music = music;
 	}
-
+	
+	public void playSound(){
+		
+	}
+	
+	public void playMusic(boolean loop){
+		
+	}
 
 	/**
 	 * 3D 볼륨을 구현화 한 코드 입니다.<p>
@@ -49,18 +60,38 @@ public class GameSound extends DynamicGameObject {
 		if(this.sound != null){
 			//화면 밖에 있다고 가정 했을때.
 			if(this.position.dist( objPos ) > ScreenW){
-				this.sound.setVolume( 0 , 0 );
+				l = 0;
+				r = 0;
+				this.sound.setVolume( l , r );
 			}else{
-				final float dist = 1.0f - (this.position.dist( objPos ) / 100) ;
-				this.sound.setVolume( dist , dist );
+				
+				final float x = objPos.x - this.position.x;
+				if(x > 0){
+					l = 1.0f - (objPos.dist( this.position ) / ScreenW);
+					r = 1.0f - (objPos.dist( this.position ) / (ScreenW / 2) );
+				}else{
+					l = 1.0f - (objPos.dist( this.position ) / (ScreenW / 2));
+					r = 1.0f - (objPos.dist( this.position ) / ScreenW);
+				}
+				this.sound.setVolume( l , r );
+				
 			}
 		}else{
 			//화면 밖에 있다고 가정 했을때.
 			if(this.position.dist( objPos ) > ScreenW){
-				this.music.setVolume( 0 , 0 );
+				l = 0;
+				r = 0;
+				this.music.setVolume( l , r );
 			}else{
-				final float dist = 1.0f - (this.position.dist( objPos ) / 100) ;
-				this.music.setVolume( dist , dist );
+				final float x = objPos.x - this.position.x;
+				if(x > 0){
+					l = 1.0f - (objPos.dist( this.position ) / ScreenW);
+					r = 1.0f - (objPos.dist( this.position ) / (ScreenW / 2) );
+				}else{
+					l = 1.0f - (objPos.dist( this.position ) / (ScreenW / 2));
+					r = 1.0f - (objPos.dist( this.position ) / ScreenW);
+				}
+				this.music.setVolume( l , r );
 			}
 		}
 	}

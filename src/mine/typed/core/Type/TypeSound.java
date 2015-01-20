@@ -27,11 +27,11 @@ public class TypeSound implements Sound {
 
 	@Override
 	public void play(final float volumeL ,final float volumeR) {
-
 		this.pool.setVolume( this.soundID , volumeL , volumeR );
 		this.pool.play( this.soundID , volumeL , volumeR , 0 , 0 , 1 );
 		Log.i( TypeSound.TAG, "Sound number ' -" + this.soundID + "- ' is Played " );
 	}
+	
 
 	@Override
 	public void dispose( ) {
