@@ -53,11 +53,14 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 	public FBO fbo;
 
 	public static boolean isCreated = true;
+	
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate( savedInstanceState );
+		
+		PlatformInfo.isRunOnAndroid = true;
 		
 		//Lua 의 사용 여부 설정
 		//DevLevel 에서는 사용함. public 레벨에선 상속후 불러와 따로 설정하면 됨

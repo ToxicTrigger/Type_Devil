@@ -15,7 +15,7 @@ public class GameSound extends DynamicGameObject {
 	public Sound sound;
 	public Music music;
 	
-	float l , r;
+	public float l , r;
 
 	/**
 	 * 사운드는 하나의 점으로 판단합니다.

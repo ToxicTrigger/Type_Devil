@@ -44,7 +44,7 @@ public class Devil {
 			this.dis = new DataInputStream(this.in);
 			System.out.println( "new Devil is Ready" );
 
-		} catch ( final IOException e){
+		} catch (Exception e){
 			e.printStackTrace( );
 		}
 
