@@ -23,26 +23,34 @@ import android.util.Log;
  *
  */
 public class Texture {
+	
 	GLGraphics glGraphics;
 	FileIO fileIO;
 	String fileName;
-	public int textureId;
+	private int textureId;
 	int minFilter;
 	int magFilter;
 	public int width;
 	public int height;
 	boolean mipmapped;
 	public Bitmap bit;
+	
+	private final boolean isInAssets;
+	
+	public boolean hasInAssets(){
+		return isInAssets;
+	}
 
 	/**
 	 * 밉맵 적용없는 생성자.
 	 * @param glGame
 	 * @param fileName
 	 */
-	public Texture( final GLGame glGame, final String fileName ) {
-
-		this( glGame , fileName , false );
+	public Texture( GLGame glGame, String fileName, boolean InAssets ) {
+		this( glGame , fileName , false , InAssets);
 	}
+
+		
 
 	/**
 	 *  밉맵을 생성합니다. 원본과 최대한 비슷한 퀄리티로 생성합니다.
@@ -50,13 +58,23 @@ public class Texture {
 	 * @param fileName
 	 * @param mipmap
 	 */
-	public Texture( final GLGame glGame, final String fileName, final boolean mipmapped ) {
+	public Texture( final GLGame glGame, final String fileName, final boolean mipmapped , boolean InAssets) {
 
 		this.glGraphics = glGame.getGLGraphics( );
 		this.fileIO = glGame.getFileIO( );
 		this.fileName = fileName;
 		this.mipmapped = mipmapped;
-		this.load( );
+		
+		this.isInAssets = InAssets;
+		if(!isInAssets){
+			this.loadOnEnvPath();
+		}else{
+			this.load( );
+		}
+	}
+	
+	public Texture( final GLGame glGame, final String fileName) {
+		this(glGame,fileName,false,true);
 	}
 
 	/**
@@ -65,16 +83,17 @@ public class Texture {
 	 * @param bitmap
 	 * @param mipmapped
 	 */
-	public Texture( final GLGame glGame, final Bitmap bitmap, final boolean mipmapped ) {
+	public Texture( final GLGame glGame, final Bitmap bitmap, final boolean mipmapped) {
 
 		this.glGraphics = glGame.getGLGraphics( );
 		// this.fileIO = glGame.getFileIO();
 		this.bit = bitmap;
 		this.mipmapped = mipmapped;
+		this.isInAssets = false;
 		this.loadonBitmap( );
 
 	}
-
+	
 	/**
 	 * 텍스쳐로 적용될 비트맵을 직접 지정합니다.
 	 * @param bitmap
@@ -130,6 +149,40 @@ public class Texture {
 		InputStream in = null;
 		try {
 			in = this.fileIO.readAsset( this.fileName );
+			final Bitmap bitmap = BitmapFactory.decodeStream( in );
+			if ( this.mipmapped ) {
+				this.createMipmaps( gl , bitmap );
+			} else {
+				gl.glBindTexture( GL10.GL_TEXTURE_2D , this.textureId );
+				GLUtils.texImage2D( GL10.GL_TEXTURE_2D , 0 , bitmap , 0 );
+				this.setFilters( GL10.GL_NEAREST , GL10.GL_NEAREST );
+				gl.glBindTexture( GL10.GL_TEXTURE_2D , 0 );
+				this.width = bitmap.getWidth( );
+				this.height = bitmap.getHeight( );
+				bitmap.recycle( );
+			}
+		} catch ( final IOException e ) {
+			throw new RuntimeException( "Couldn't load texture '" + this.fileName
+					+ "'" , e );
+		} finally {
+			if ( in != null ) {
+				try {
+					in.close( );
+				} catch ( final IOException e ) {}
+			}
+		}
+	}
+
+	private void loadOnEnvPath( ) {
+
+		final GL10 gl = this.glGraphics.getGL( );
+		final int[ ] textureIds = new int[ 1 ];
+		gl.glGenTextures( 1 , textureIds , 0 );
+		this.textureId = textureIds[ 0 ];
+
+		InputStream in = null;
+		try {
+			in = this.fileIO.readFile( this.fileName );
 			final Bitmap bitmap = BitmapFactory.decodeStream( in );
 			if ( this.mipmapped ) {
 				this.createMipmaps( gl , bitmap );

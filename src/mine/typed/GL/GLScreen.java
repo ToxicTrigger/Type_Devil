@@ -38,6 +38,7 @@ public abstract class GLScreen extends Screen {
 	@Override
 	public abstract void resume( );
 
+	//present 보다 먼저 호출 됨
 	@Override
 	public abstract void update(float arg0);
 

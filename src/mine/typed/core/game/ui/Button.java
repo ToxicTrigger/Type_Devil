@@ -2,7 +2,6 @@ package mine.typed.core.game.ui;
 
 import mine.typed.core.OverlapTester;
 import mine.typed.core.V2;
-import mine.typed.core.game.HitBox;
 import mine.typed.core.interfaces.Input.TouchEvent;
 
 /**
@@ -10,7 +9,7 @@ import mine.typed.core.interfaces.Input.TouchEvent;
  * @author mrminer
  *
  */
-public abstract class Button extends HitBox {	
+public abstract class Button extends UI {	
 	public static final int DISABLED = 0;
 	public static final int ACTIVATION = 1;
 	public static final int PUSHING = 2;
@@ -26,9 +25,10 @@ public abstract class Button extends HitBox {
 	 * @param width
 	 * @param height
 	 */
-	public Button( float x , float y , float width , float height ) {
-		super( x , y , width , height );
-		this.pos = new V2(this.lowerLeft.x + (this.width / 2) ,this.lowerLeft.y + (this.height / 2));
+	public Button( float x , float y , float width , float height, UI.Type type ) {
+		super(new V2(x, y), new V2(x, y), new V2(x, y), width, height, type, UI.Effect.Custom, UI.Effect.Custom, 999999);
+		this.pos = new V2(this.hitbox.lowerLeft.x + (this.hitbox.width / 2) ,this.hitbox.lowerLeft.y + (this.hitbox.height / 2));
+		
 		this.buttonState = 0;
 	}
 	/**
@@ -37,9 +37,22 @@ public abstract class Button extends HitBox {
 	 * @param width
 	 * @param height
 	 */
+	public Button(V2 v , float width , float height, UI.Type type  ) {
+		super( v, v, v , width , height , type, UI.Effect.Custom, UI.Effect.Custom, 99999);
+		this.pos = new V2(this.hitbox.lowerLeft.x + (this.hitbox.width / 2) ,this.hitbox.lowerLeft.y + (this.hitbox.height / 2));
+		buttonState = 0;
+	}
+	
+	public Button( float x , float y , float width , float height) {
+		super( new V2(x, y), new V2(x, y), new V2(x, y) , width , height , UI.Type.UnDefine , UI.Effect.Custom, UI.Effect.Custom, 99999);
+		this.pos = new V2(this.hitbox.lowerLeft.x + (this.hitbox.width / 2) ,this.hitbox.lowerLeft.y + (this.hitbox.height / 2));
+		
+		this.buttonState = 0;
+	}
+	
 	public Button(V2 v , float width , float height ) {
-		super( v.x ,v. y , width , height );
-		this.pos = new V2(this.lowerLeft.x + (this.width / 2) ,this.lowerLeft.y + (this.height / 2));
+		super( v, v, v , width , height , UI.Type.UnDefine, UI.Effect.Custom, UI.Effect.Custom, 99999);
+		this.pos = new V2(this.hitbox.lowerLeft.x + (this.hitbox.width / 2) ,this.hitbox.lowerLeft.y + (this.hitbox.height / 2));
 		buttonState = 0;
 	}
 
@@ -52,18 +65,18 @@ public abstract class Button extends HitBox {
 		//3 keep pos in
 		//4 up				UP			ACT
 		//5 up other pos	UP			DIS
-		if(OverlapTester.pointInRectangle(this, touchPos)){
+		if(OverlapTester.pointInRectangle(this.hitbox, touchPos)){
 			if( touchType == TouchEvent.TOUCH_DOWN | touchType == TouchEvent.TOUCH_DRAGGED) this.buttonState = Button.PUSHING;
-		}else if(!OverlapTester.pointInRectangle(this, touchPos) & touchType == TouchEvent.TOUCH_UP){
+		}else if(!OverlapTester.pointInRectangle(this.hitbox, touchPos) & touchType == TouchEvent.TOUCH_UP){
 			this.buttonState = Button.DISABLED;
 			return;
 		}
 		
-		if((OverlapTester.pointInRectangle(this, touchPos) & this.buttonState == Button.PUSHING) & touchType == TouchEvent.TOUCH_UP){
+		if((OverlapTester.pointInRectangle(this.hitbox, touchPos) & this.buttonState == Button.PUSHING) & touchType == TouchEvent.TOUCH_UP){
 			this.buttonState = Button.ACTIVATION; 
 		}
 		
-		if(!OverlapTester.pointInRectangle(this, touchPos) & 
+		if(!OverlapTester.pointInRectangle(this.hitbox, touchPos) & 
 		(touchType == TouchEvent.TOUCH_UP | touchType == TouchEvent.TOUCH_DOWN | touchType == TouchEvent.TOUCH_DRAGGED)) 
 			{ this.buttonState = Button.DISABLED; }
 		
@@ -79,7 +92,7 @@ public abstract class Button extends HitBox {
 		V2 pos = touchPos;
 		this.updateButtonState(type, pos);
 		runEvent();
-		if(this.buttonState == Button.ACTIVATION | (!OverlapTester.pointInRectangle(this, touchPos) & eventType == TouchEvent.TOUCH_UP))
+		if(this.buttonState == Button.ACTIVATION | (!OverlapTester.pointInRectangle(this.hitbox, touchPos) & eventType == TouchEvent.TOUCH_UP))
 			this.buttonState = Button.DISABLED;
 	}
 	
@@ -129,12 +142,5 @@ public abstract class Button extends HitBox {
 		}
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "Button [pos=" + pos + ", buttonState=" + buttonState
-				+ ", lowerLeft=" + lowerLeft + ", width=" + width + ", height="
-				+ height + "]";
-	}
-	
 
 }

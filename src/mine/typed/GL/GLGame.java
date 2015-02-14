@@ -114,9 +114,9 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 
 	@Override
 	public void onResume( ) {
-
 		super.onResume( );
-
+		
+		TextureManager.getInstance().reloadAll();
 		this.glView.onResume( );
 
 	}
@@ -138,21 +138,15 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 			this.startTime = System.nanoTime( );
 		}
 
-
-
 	}
 
 	@Override
 	public void onSurfaceChanged(final GL10 gl, final int width, final int height) {
-
 	}
 
 	@Override
 	public void onDrawFrame(final GL10 gl) {
-
 		GLGameState state = null;
-
-
 		synchronized ( this.stateChanged ) {
 			state = this.state;
 		}
@@ -206,31 +200,27 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 	}
 
 	public GLGraphics getGLGraphics( ) {
-
 		return this.GLGraphics;
 	}
 
 	@Override
 	public Input getInput( ) {
-
 		return this.input;
 	}
 
 	@Override
 	public FileIO getFileIO( ) {
-
 		return this.fileIO;
 	}
 
 
 	@Override
 	public Audio getAudio( ) {
-
 		return this.audio;
 	}
 
 	@Override
-	public void setScreen(final Screen screen) {
+	public void setScreen(Screen screen) {
 
 		if ( screen == null ) {
 			throw new IllegalArgumentException( "Screen must not be null" );

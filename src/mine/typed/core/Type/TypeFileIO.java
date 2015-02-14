@@ -42,14 +42,13 @@ public class TypeFileIO implements FileIO {
 	@Override
 	public InputStream readFile(final String fileName) throws IOException {
 
-
+		 System.out.println(espath + fileName);
+		
 		return new FileInputStream( this.espath + fileName );
 	}
 
 	@Override
 	public FileOutputStream writeFile(final String fileName) throws IOException {
-
-
 		return new FileOutputStream( this.espath + fileName );
 	}
 
