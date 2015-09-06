@@ -46,8 +46,8 @@ public class OverlapRenderer
 		TextureManager.getInstance().put(overlapTex);
 		OverlapTex = TextureManager.getInstance().get(overlapTex);
 		overlap_w = new TextureRegion(OverlapTex, 256, 0, 256, 256);
-		overlap_r = new TextureRegion(OverlapTex, 0, 0, 256, 256);
-		overlap_b = new TextureRegion(OverlapTex, 0, 256, 256, 256);
+		overlap_r = new TextureRegion(OverlapTex, 0, 256, 256, 256);
+		overlap_b = new TextureRegion(OverlapTex, 0, 0, 256, 256);
 	}
 
 	public void drawBounds(Diagram... diagrams)

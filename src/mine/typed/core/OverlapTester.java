@@ -70,7 +70,17 @@ public class OverlapTester
 
 		final float distance = c1.center.distSquared(c2.center);
 		final float radiusSum = c1.radius + c2.radius;
-		return distance <= (radiusSum * radiusSum);
+		if(distance <= (radiusSum * radiusSum))
+		{
+			c1.isOverlaped = true;
+			c2.isOverlaped = true;
+		}
+		else
+		{
+			c1.isOverlaped = false;
+			c2.isOverlaped = false;
+		}
+		return c1.isOverlaped & c2.isOverlaped;
 	}
 
 	/**
@@ -87,13 +97,15 @@ public class OverlapTester
 		{
 			r1.isOverlaped = true;
 			r2.isOverlaped = true;
-			return true;
-		} else
+
+		} 
+		else
 		{
 			r1.isOverlaped = false;
 			r2.isOverlaped = false;
-			return false;
+
 		}
+		return r1.isOverlaped & r2.isOverlaped;
 	}
 
 	/**
@@ -111,19 +123,19 @@ public class OverlapTester
 			{
 				h1.isOverlaped = true;
 				h2.isOverlaped = true;
-				return true;
-			} else
+			} 
+			else
 			{
 				h1.isOverlaped = false;
 				h2.isOverlaped = false;
-				return false;
 			}
-		} else
+		} 
+		else
 		{
 			h1.isOverlaped = false;
 			h2.isOverlaped = false;
-			return false;
 		}
+		return h1.isOverlaped & h2.isOverlaped;
 
 	}
 
@@ -134,13 +146,12 @@ public class OverlapTester
 		{
 			h.isOverlaped = true;
 			r.isOverlaped = true;
-			return true;
 		} else
 		{
 			h.isOverlaped = false;
 			r.isOverlaped = false;
-			return false;
 		}
+		return h.isOverlaped & r.isOverlaped;
 	}
 
 	/**
@@ -224,7 +235,7 @@ public class OverlapTester
 			h.isOverlaped = false;
 		}
 
-		return c.isOverlaped;
+		return c.isOverlaped & h.isOverlaped;
 	}
 
 	/**
@@ -248,7 +259,7 @@ public class OverlapTester
 			s1.isOverlaped = false;
 			s2.isOverlaped = false;
 		}
-		return s1.isOverlaped;
+		return s1.isOverlaped & s2.isOverlaped;
 	}
 
 	/**

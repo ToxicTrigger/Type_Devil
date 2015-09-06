@@ -2,6 +2,7 @@ package mine.typed.core.game.ui;
 
 import mine.typed.core.OverlapTester;
 import mine.typed.core.V2;
+import mine.typed.core.game.HitBox;
 import mine.typed.core.interfaces.Input.TouchEvent;
 
 /**
@@ -103,12 +104,15 @@ public abstract class Button extends UI
 	 */
 	public void autoRunEvent(int eventType, V2 touchPos)
 	{
-		int type = eventType;
-		V2 pos = touchPos;
-		this.updateButtonState(type, pos);
-		runEvent();
-		if( this.buttonState == Button.ACTIVATION | (!OverlapTester.pointInRectangle(this.hitbox, touchPos) & eventType == TouchEvent.TOUCH_UP) ) this.buttonState = Button.DISABLED;
-	}
+		if(this.hitbox.getState() == HitBox.STATE_CHECK)
+		{
+			int type = eventType;
+			V2 pos = touchPos;
+			this.updateButtonState(type, pos);
+			runEvent();
+			if( this.buttonState == Button.ACTIVATION | (!OverlapTester.pointInRectangle(this.hitbox, touchPos) & eventType == TouchEvent.TOUCH_UP) ) this.buttonState = Button.DISABLED;
+		}
+}
 
 	public void runEvent()
 	{
