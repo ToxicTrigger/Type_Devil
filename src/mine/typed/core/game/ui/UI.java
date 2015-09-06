@@ -3,96 +3,85 @@ package mine.typed.core.game.ui;
 import mine.typed.core.V2;
 
 /**
- * all ui are have 9 TextureRegion 
- * UpL , Lside , UpR , UpBar, Centor, DownL , Rside , DownR , DownBar
+ * all ui are have 9 TextureRegion UpL , Lside , UpR , UpBar, Centor, DownL ,
+ * Rside , DownR , DownBar
  * 
- * never change List
- * UpL , UpR, DownL, DownR
+ * never change List UpL , UpR, DownL, DownR
  * 
- * side change List
- * UpBar , DownBar
+ * side change List UpBar , DownBar
  * 
- * up and down List
- * Lside , Rside
+ * up and down List Lside , Rside
  * 
- * all accept
- * centor
+ * all accept centor
  * 
  * @author mrminer
  *
  */
-public class UI extends mine.typed.core.game.DynamicGameObject {
-	
-	public enum ResType{		// TextrueRegions 
-		
-		Window,				//9
-		
-		Up_Dis_Button,		//9
-		Up_Acc_Button,		//9
-		Up_War_Button,		//9
-		Up_Dif_Button,		//9
+public class UI extends mine.typed.core.game.DynamicGameObject
+{
 
-		Down_Dis_Button,	//9
-		Down_Acc_Button,	//9
-		Down_War_Button,	//9
-		Down_Dif_Button,	//9
-	
-		Dis_Circle,			//1
-		Acc_Circle,			//1
-		War_Circle,			//1
-		Dif_Circle,			//1
-		
-		X,					//1
-		Menu,				//1
-		ScrollBar,			//1
-		Off_Under_Switch,	//1
-		On_Under_Switch,	//1
-		Dot		,			//1
-		
+	public enum ResType
+	{ // TextrueRegions
+
+		Window, // 9
+
+		Up_Dis_Button, // 9
+		Up_Acc_Button, // 9
+		Up_War_Button, // 9
+		Up_Dif_Button, // 9
+
+		Down_Dis_Button, // 9
+		Down_Acc_Button, // 9
+		Down_War_Button, // 9
+		Down_Dif_Button, // 9
+
+		Dis_Circle, // 1
+		Acc_Circle, // 1
+		War_Circle, // 1
+		Dif_Circle, // 1
+
+		X, // 1
+		Menu, // 1
+		ScrollBar, // 1
+		Off_Under_Switch, // 1
+		On_Under_Switch, // 1
+		Dot, // 1
+
 		UnDefine
-		
+
 	}
-	
-	public enum Type{
-		Window,
-		Dis_Button,
-		Acc_Button,
-		Dif_Button,
-		War_Button,
-		Dis_Circle,
-		Acc_Circle,
-		Dif_Circle,
-		War_Circle,
-		
-		X,					
-		Menu,				
-		ScrollBar,			
-		Off_Under_Switch,	
-		On_Under_Switch,	
-		Dot		,			
-		
+
+	public enum Type
+	{
+		Window, Dis_Button, Acc_Button, Dif_Button, War_Button, Dis_Circle, Acc_Circle, Dif_Circle, War_Circle,
+
+		X, Menu, ScrollBar, Off_Under_Switch, On_Under_Switch, Dot,
+
 		UnDefine
 	}
-	
-	public enum Effect{
-		Slide,				// if isUpEffectDone false? Left to Centor else Centor to Right.
-		Drop,				// if isUpEffectDone false? Up Edge to Centor else Centor to Down Edge.
-		Up,					// if isUpEffectDone false? Donw Edge to Centor else Centor to Up Edge.
-		Fade	,			// if isUpEffectDone false? fade-in else fade-out.
+
+	public enum Effect
+	{
+		Slide, // if isUpEffectDone false? Left to Centor else Centor to Right.
+		Drop, // if isUpEffectDone false? Up Edge to Centor else Centor to Down
+				// Edge.
+		Up, // if isUpEffectDone false? Donw Edge to Centor else Centor to Up
+			// Edge.
+		Fade, // if isUpEffectDone false? fade-in else fade-out.
 		Custom
 	}
-	
-	
-	public ResType UpRes , DownRes , DifRes;
+
+	public ResType UpRes, DownRes, DifRes;
 	public final Type type;
 	public Effect UpEffect, DownEffect;
 	public boolean isShow;
-	public boolean isUpEffectDone , isDownEffectDone , isCentorShowOver;
+	public boolean isUpEffectDone, isDownEffectDone, isCentorShowOver;
 	public V2 startPos, CentorPos, EndPos;
 	public float alpha;
 	public float showTime;
-	
-	public UI(V2 Start, V2 Centor, V2 End, float width, float height , Type Type , Effect up, Effect down , float showTime) {
+
+	public UI(V2 Start, V2 Centor, V2 End, float width, float height, Type Type, Effect up, Effect down, float showTime)
+	{
 		super(Start.x, Start.y, width, height);
 		this.type = Type;
 		setResType();
@@ -105,28 +94,37 @@ public class UI extends mine.typed.core.game.DynamicGameObject {
 		this.showTime = showTime;
 		this.accel.set(9.6f, 9.6f);
 	}
-	
-	public void move(float del){
-		
-		if(isUpEffectDone){
-			if(showTime <= 0) showTime -= del;
+
+	public void move(float del)
+	{
+
+		if( isUpEffectDone )
+		{
+			if( showTime <= 0 ) showTime -= del;
 		}
-		
-		if(isCentorShowOver & isUpEffectDone){
+
+		if( isCentorShowOver & isUpEffectDone )
+		{
 			this.runDownEffect();
-		}else if(isCentorShowOver & isUpEffectDone & showTime <= 0){
+		} else if( isCentorShowOver & isUpEffectDone & showTime <= 0 )
+		{
 			this.runDownEffect();
 		}
-		
-		if(!isUpEffectDone) this.runUpEffect();
-		
+
+		if( !isUpEffectDone ) this.runUpEffect();
+
 	}
-	
-	private void runUpEffect(){
-		if(this.UpEffect != Effect.Fade){
-			if(!this.isUpEffectDone){
-				if(this.position.x <= this.CentorPos.x & this.position.y >= this.CentorPos.y){
-					switch(UpEffect){
+
+	private void runUpEffect()
+	{
+		if( this.UpEffect != Effect.Fade )
+		{
+			if( !this.isUpEffectDone )
+			{
+				if( this.position.x <= this.CentorPos.x & this.position.y >= this.CentorPos.y )
+				{
+					switch (UpEffect)
+					{
 					case Custom:
 						break;
 					case Drop:
@@ -140,26 +138,35 @@ public class UI extends mine.typed.core.game.DynamicGameObject {
 						this.position.y += (position.y % this.CentorPos.y) * this.accel.y;
 						break;
 					}
-				}else{
+				} else
+				{
 					this.isUpEffectDone = true;
 				}
 			}
-		}else{
-			if(alpha > 0.0f){
+		} else
+		{
+			if( alpha > 0.0f )
+			{
 				this.alpha -= this.accel.x / 100f;
-			}else{
+			} else
+			{
 				this.isUpEffectDone = true;
 			}
 
 		}
 
 	}
-	
-	private void runDownEffect(){
-		if(this.UpEffect != Effect.Fade){
-			if(!this.isDownEffectDone){
-				if(this.position.x <= this.EndPos.x & this.position.y >= this.EndPos.y){
-					switch(UpEffect){
+
+	private void runDownEffect()
+	{
+		if( this.UpEffect != Effect.Fade )
+		{
+			if( !this.isDownEffectDone )
+			{
+				if( this.position.x <= this.EndPos.x & this.position.y >= this.EndPos.y )
+				{
+					switch (UpEffect)
+					{
 					case Custom:
 						break;
 					case Drop:
@@ -173,28 +180,34 @@ public class UI extends mine.typed.core.game.DynamicGameObject {
 						this.position.y += (position.y % this.EndPos.y) * this.accel.y;
 						break;
 					}
-				}else{
+				} else
+				{
 					this.isDownEffectDone = true;
 				}
 			}
-		}else{
-			if(alpha < 1.0f){
+		} else
+		{
+			if( alpha < 1.0f )
+			{
 				this.alpha += this.accel.x / 100f;
-			}else{
+			} else
+			{
 				this.isDownEffectDone = true;
 			}
 
 		}
 
 	}
-	
-	
-	public boolean hasShow(){
+
+	public boolean hasShow()
+	{
 		return this.isShow;
 	}
-	
-	private void setResType(){
-		switch(type){
+
+	private void setResType()
+	{
+		switch (type)
+		{
 		case Acc_Button:
 			this.UpRes = ResType.Up_Acc_Button;
 			this.DownRes = ResType.Down_Acc_Button;
@@ -254,10 +267,8 @@ public class UI extends mine.typed.core.game.DynamicGameObject {
 		default:
 			this.DifRes = ResType.UnDefine;
 			return;
-		
+
 		}
 	}
-
-
 
 }

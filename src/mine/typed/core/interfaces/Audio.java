@@ -1,9 +1,7 @@
-
 package mine.typed.core.interfaces;
 
-
-
-public interface Audio {
+public interface Audio
+{
 
 	public Music newMusic(String filename);
 

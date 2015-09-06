@@ -1,18 +1,15 @@
-
 package mine.typed.core.interfaces;
-
-
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-
-
-public interface FileIO {
+public interface FileIO
+{
 
 	/**
 	 * Asset 으로 부터 파일을 읽어 옵니다.
+	 * 
 	 * @param fileName
 	 * @return
 	 * @throws IOException

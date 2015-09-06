@@ -1,10 +1,12 @@
 package mine.typed.GL;
 
-public class PlatformInfo {
-	
+public class PlatformInfo
+{
+
 	protected static boolean isRunOnAndroid;
-	
-	public static boolean isRunningOnAndroid(){
+
+	public static boolean isRunningOnAndroid()
+	{
 		return isRunOnAndroid;
 	}
 }

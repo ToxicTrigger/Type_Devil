@@ -1,12 +1,7 @@
-
 package mine.typed.core;
-
-
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 /**
  * 재사용률을 상승시키기 위한 클래스
@@ -15,7 +10,8 @@ import java.util.List;
  * 
  * @param <T>
  */
-public class Pool<T> {
+public class Pool<T>
+{
 
 	public final List<T> freeOBJ;
 	/**
@@ -32,38 +28,46 @@ public class Pool<T> {
 	 * @param maxSize
 	 *            최대 수용 가능한 객체의 갯수
 	 */
-	public Pool( final PoolObjectFactory<T> factory, final int maxSize ) {
+	public Pool(final PoolObjectFactory<T> factory, final int maxSize)
+	{
 
 		this.factory = factory;
 		this.maxSize = maxSize;
-		this.freeOBJ = new ArrayList<T>( maxSize );
+		this.freeOBJ = new ArrayList<T>(maxSize);
 	}
+
 	/**
 	 * factory 의 타입에 의거한 객체를 생성한다.
 	 * 
 	 * @return 생성된 객체
 	 */
-	public T newOBJ( ) {
+	public T newOBJ()
+	{
 
 		T object = null;
-		if ( this.freeOBJ.size( ) == 0 ) {
-			object = this.factory.createObject( );
-		} else {
-			object = this.freeOBJ.remove( this.freeOBJ.size( ) - 1 );
+		if( this.freeOBJ.size() == 0 )
+		{
+			object = this.factory.createObject();
+		} else
+		{
+			object = this.freeOBJ.remove(this.freeOBJ.size() - 1);
 		}
 
 		return object;
 	}
+
 	/**
 	 * 리스트의 빈공간을 채우는 매서드
 	 * 
 	 * @param object
 	 *            채워질 객체
 	 */
-	public void free(final T object) {
+	public void free(final T object)
+	{
 
-		if ( this.freeOBJ.size( ) < this.maxSize ) {
-			this.freeOBJ.add( object );
+		if( this.freeOBJ.size() < this.maxSize )
+		{
+			this.freeOBJ.add(object);
 		}
 	}
 
@@ -73,8 +77,9 @@ public class Pool<T> {
 	 * 
 	 * @param <T>
 	 */
-	public interface PoolObjectFactory<T> {
-		public T createObject( );
+	public interface PoolObjectFactory<T>
+	{
+		public T createObject();
 	}
 
 }

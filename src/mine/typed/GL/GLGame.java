@@ -1,7 +1,4 @@
-
 package mine.typed.GL;
-
-
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -23,16 +20,17 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-
 /**
- * 어플리케이션의 Activity 입니다.
- * TypeD 는 이 클래스를 상속받은 Activity 를 찾아 동작합니다.
+ * 어플리케이션의 Activity 입니다. TypeD 는 이 클래스를 상속받은 Activity 를 찾아 동작합니다.
+ * 
  * @author mrminer
  *
  */
-public abstract class GLGame extends Activity implements Game , Renderer {
+public abstract class GLGame extends Activity implements Game, Renderer
+{
 
-	enum GLGameState {
+	enum GLGameState
+	{
 		Initialized, Running, Paused, Finished, Idle
 	}
 
@@ -43,222 +41,251 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 	FileIO fileIO;
 	Screen screen;
 	public GLGameState state = GLGameState.Initialized;
-	Object stateChanged = new Object( );
-	public static long startTime = System.nanoTime( );
+	Object stateChanged = new Object();
+	public static long startTime = System.nanoTime();
 	public static float delta;
-	
-	private static TypeLogger logger = TypeLogger.getInstance(  );
-	
+
+	private static TypeLogger logger = TypeLogger.getInstance();
+
 	private static boolean isPublicModeUsable;
 
 	public FBO fbo;
 
 	public static boolean isCreated = true;
-	
 
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState)
+	{
 
-		super.onCreate( savedInstanceState );
-		
+		super.onCreate(savedInstanceState);
+
 		PlatformInfo.isRunOnAndroid = true;
-		
-		//Lua 의 사용 여부 설정
-		//DevLevel 에서는 사용함. public 레벨에선 상속후 불러와 따로 설정하면 됨
+
+		// Lua 의 사용 여부 설정
+		// DevLevel 에서는 사용함. public 레벨에선 상속후 불러와 따로 설정하면 됨
 		LuaHelper.setLuaUsable(true);
 		this.setPublicLuaModeOffer();
-		//--------------------
-		isPublicModeUsable	= GLGame.useLuaMode();
-		//--------------------
-		
-		this.requestWindowFeature( Window.FEATURE_NO_TITLE );
-		this.getWindow( ).setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN ,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN );
-		this.getWindow( ).addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
+		// --------------------
+		isPublicModeUsable = GLGame.useLuaMode();
+		// --------------------
 
-		this.glView = new GLSurfaceView( this );
-		this.glView.setRenderer( this );
-		this.setContentView( this.glView );
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		this.GLGraphics = new GLGraphics( this.glView );
-		this.fileIO = new TypeFileIO( this.getAssets( ) );
-		this.audio = new TypeAudio( this );
-		this.input = new TypeInput( this , this.glView , 1 , 1 );
-		
+		this.glView = new GLSurfaceView(this);
+		this.glView.setRenderer(this);
+		this.setContentView(this.glView);
+
+		this.GLGraphics = new GLGraphics(this.glView);
+		this.fileIO = new TypeFileIO(this.getAssets());
+		this.audio = new TypeAudio(this);
+		this.input = new TypeInput(this, this.glView, 1, 1);
+
 	}
-	
+
 	/**
 	 * 해당 게임의 엑티비티가 모드를 사용하는지에 대한 여부를 설정하면 됨
 	 */
 	public abstract void setModUsable(boolean LuaModeUsable);
-	
+
 	/**
 	 * 해당 메서드는 단순히 모드의 사용여부를 확인, 확정하기 위해 작동함.
 	 */
-	public static boolean useLuaMode(){
-		if(LuaHelper.hasLuaUsable()) {
-			if(LuaHelper.hasLuaModeUsable()){
+	public static boolean useLuaMode()
+	{
+		if( LuaHelper.hasLuaUsable() )
+		{
+			if( LuaHelper.hasLuaModeUsable() )
+			{
 				GLGame.isPublicModeUsable = true;
 				return true;
-			}else{
+			} else
+			{
 				GLGame.isPublicModeUsable = false;
 			}
 		}
 		GLGame.isPublicModeUsable = false;
 		return false;
 	}
-	
+
 	/**
 	 * <code> LuaHelper.setLuaModeUsable(boolean) <code> 를 호출하고 설정하도록 설계
 	 */
 	public abstract void setPublicLuaModeOffer();
 
 	@Override
-	public void onResume( ) {
-		super.onResume( );
-		
-		this.glView.onResume( );
-
+	public void onResume()
+	{
+		super.onResume();
+		TextureManager.getInstance().reloadAll();
+		this.glView.onResume();
 	}
 
-
-
-
 	@Override
-	public void onSurfaceCreated(final GL10 gl, final EGLConfig config) {
+	public void onSurfaceCreated(final GL10 gl, final EGLConfig config)
+	{
+		this.GLGraphics.setGL(gl);
 
-		this.GLGraphics.setGL( gl );
-
-		synchronized ( this.stateChanged ) {
-			if ( this.state == GLGameState.Initialized ) {
-				this.screen = this.getStartScreen( );
+		synchronized( this.stateChanged )
+		{
+			if( this.state == GLGameState.Initialized )
+			{
+				this.screen = this.getStartScreen();
 			}
 			this.state = GLGameState.Running;
-			this.screen.resume( );
-			startTime = System.nanoTime( );
+			this.screen.resume();
+			startTime = System.nanoTime();
 		}
 
 	}
 
 	@Override
-	public void onSurfaceChanged(final GL10 gl, final int width, final int height) {
+	public void onSurfaceChanged(final GL10 gl, final int width, final int height)
+	{
 	}
 
 	@Override
-	public void onDrawFrame(final GL10 gl) {
+	public void onDrawFrame(final GL10 gl)
+	{
 		GLGameState state = null;
-		synchronized ( this.stateChanged ) {
+		synchronized( this.stateChanged )
+		{
 			state = this.state;
 		}
 
-		if ( state == GLGameState.Running ) {
-			delta = (System.nanoTime( ) - GLGame.startTime) / 1000000000.0f;
+		if( state == GLGameState.Running )
+		{
+			delta = (System.nanoTime() - GLGame.startTime) / 1000000000.0f;
 			final float del = delta;
-			GLGame.startTime = System.nanoTime( );
+			GLGame.startTime = System.nanoTime();
 
-			this.screen.update( del );
-			
+			this.screen.update(del);
+
 			this.screen.drawBackBuffer(del);
-			this.screen.present( del );
+			this.screen.present(del);
 			this.screen.drawUpBuffer(del);
-			
+
 			this.screen.lateUpdate(del);
 		}
 
-		if ( state == GLGameState.Paused ) {
-			this.screen.pause( );
-			synchronized ( this.stateChanged ) {
+		if( state == GLGameState.Paused )
+		{
+			this.screen.pause();
+			synchronized( this.stateChanged )
+			{
 				this.state = GLGameState.Idle;
-				this.stateChanged.notifyAll( );
+				this.stateChanged.notifyAll();
 			}
 		}
 
-		if ( state == GLGameState.Finished ) {
-			this.screen.pause( );
-			this.screen.dispose( );
-			synchronized ( this.stateChanged ) {
+		if( state == GLGameState.Finished )
+		{
+			this.screen.pause();
+			this.screen.dispose();
+			synchronized( this.stateChanged )
+			{
 				this.state = GLGameState.Idle;
-				this.stateChanged.notifyAll( );
+				this.stateChanged.notifyAll();
 			}
 		}
 	}
-
 
 	@Override
-	public void onPause( ) {
+	public void onPause()
+	{
 
-		synchronized ( this.stateChanged ) {
-			if ( this.isFinishing( ) ) {
+		synchronized( this.stateChanged )
+		{
+			if( this.isFinishing() )
+			{
 				this.state = GLGameState.Finished;
-			} else {
+			} else
+			{
 				this.state = GLGameState.Paused;
 			}
-			while ( true ) {
-				try {
-					this.stateChanged.wait( );
+			while ( true )
+			{
+				try
+				{
+					this.stateChanged.wait();
 					break;
-				} catch ( final InterruptedException e ) {}
+				} catch (final InterruptedException e)
+				{
+				}
 			}
 		}
 
-		this.glView.onPause( );
-		super.onPause( );
+		this.glView.onPause();
+		super.onPause();
 	}
 
-	public GLGraphics getGLGraphics( ) {
+	public GLGraphics getGLGraphics()
+	{
 		return this.GLGraphics;
 	}
 
 	@Override
-	public Input getInput( ) {
+	public Input getInput()
+	{
 		return this.input;
 	}
 
 	@Override
-	public FileIO getFileIO( ) {
+	public FileIO getFileIO()
+	{
 		return this.fileIO;
 	}
 
-
 	@Override
-	public Audio getAudio( ) {
+	public Audio getAudio()
+	{
 		return this.audio;
 	}
 
 	@Override
-	public void setScreen(Screen screen) {
+	public void setScreen(Screen screen)
+	{
 
-		if ( screen == null ) {
-			throw new IllegalArgumentException( "Screen must not be null" );
+		if( screen == null )
+		{
+			throw new IllegalArgumentException("Screen must not be null");
 		}
 
-		this.screen.pause( );
-		this.screen.dispose( );
-		screen.resume( );
-		screen.update( 0 );
+		this.screen.pause();
+		this.screen.dispose();
+		screen.resume();
+		screen.update(0);
 		this.screen = screen;
 	}
 
 	@Override
-	public Screen getCurrentScreen( ) {
+	public Screen getCurrentScreen()
+	{
 
 		return this.screen;
 	}
 
-	public static TypeLogger getlogger( ) {
+	public static TypeLogger getlogger()
+	{
 		return logger;
 	}
 
-	public static void setlogger( TypeLogger logger ) {
+	public static void setlogger(TypeLogger logger)
+	{
 		GLGame.logger = logger;
 	}
 
 	/**
-	 * 해당 변수는 릴리즈 단계의 어플리케이션이 루아 모드를 사용하는지의 여부를 반환함 <p>
-	 * 액티비티가 생성될 때 판단하며, 그 결과는 어플리케이션이 종료되기 전 까지 변하지 않는 것이 원칙임<p>
+	 * 해당 변수는 릴리즈 단계의 어플리케이션이 루아 모드를 사용하는지의 여부를 반환함
+	 * <p>
+	 * 액티비티가 생성될 때 판단하며, 그 결과는 어플리케이션이 종료되기 전 까지 변하지 않는 것이 원칙임
+	 * <p>
+	 * 
 	 * @return 유저단계의_모드_지원여부
 	 */
-	public static boolean isPublicModeUsable() {
+	public static boolean isPublicModeUsable()
+	{
 		return isPublicModeUsable;
 	}
 

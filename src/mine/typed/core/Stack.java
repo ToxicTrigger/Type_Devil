@@ -1,19 +1,17 @@
-
 package mine.typed.core;
-
-
 
 /**
  * 스택을 구현한 클래스
  * 
  * @author mrminer
  */
-public class Stack {
+public class Stack
+{
 
 	/**
 	 * 객체를 저장할 배열
 	 */
-	Object[ ] msize;
+	Object[] msize;
 	/**
 	 * 현재 스택의 위치를 가리키는 커서
 	 */
@@ -29,7 +27,8 @@ public class Stack {
 	 * @param StackSize
 	 *            스택의 크기
 	 */
-	public Stack( final int StackSize ) {
+	public Stack(final int StackSize)
+	{
 
 		this.msize = new Object[ StackSize ];
 		this.mcuser = 0;
@@ -42,11 +41,14 @@ public class Stack {
 	 * @param obj
 	 * @return 삽입에 성공했는지 여부
 	 */
-	public boolean push(final Object obj) {
+	public boolean push(final Object obj)
+	{
 
-		if ( this.max <= this.mcuser ) {
+		if( this.max <= this.mcuser )
+		{
 			return false;
-		} else {
+		} else
+		{
 			this.msize[ this.mcuser ] = obj;
 			this.mcuser++;
 			return true;
@@ -58,11 +60,14 @@ public class Stack {
 	 * 
 	 * @return mcuser 값이 가리키는 주소에 존재하는 Object 를 반환
 	 */
-	public Object pop( ) {
+	public Object pop()
+	{
 
-		if ( this.mcuser <= -1 ) {
+		if( this.mcuser <= -1 )
+		{
 			return null;
-		} else {
+		} else
+		{
 			this.mcuser--;
 			return this.msize[ this.mcuser++ ];
 
@@ -75,11 +80,14 @@ public class Stack {
 	 * @param key
 	 * @return key가 가리키는 배열이 공백이라면 true , 아니라면 false
 	 */
-	public boolean isEmpty(final int key) {
+	public boolean isEmpty(final int key)
+	{
 
-		if ( this.msize[ key ] == null ) {
+		if( this.msize[ key ] == null )
+		{
 			return true;
-		} else {
+		} else
+		{
 			return false;
 		}
 	}

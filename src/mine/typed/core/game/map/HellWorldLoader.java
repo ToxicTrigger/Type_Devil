@@ -1,8 +1,10 @@
 package mine.typed.core.game.map;
 
-public class HellWorldLoader {
+public class HellWorldLoader
+{
 
-	public HellWorldLoader( ) {
+	public HellWorldLoader()
+	{
 
 	}
 
