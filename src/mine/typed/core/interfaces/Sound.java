@@ -4,6 +4,13 @@ package mine.typed.core.interfaces;
 
 
 public interface Sound {
+	
+	public enum State{
+		Init,
+		playing,
+		pause,
+		end
+	}
 
 	/**
 	 * 소리를 재생합니다.
@@ -11,12 +18,9 @@ public interface Sound {
 	 * @param volumeR
 	 */
 	public void play(float volumeL , float volumeR);
-	/**
-	 * 볼륨을 설정 합니다.
-	 * @param L
-	 * @param R
-	 */
-	public void setVolume(float L , float R);
+	
+	public void setVolume(float l, float r);
+
 	/**
 	 * 해제합니다.
 	 */

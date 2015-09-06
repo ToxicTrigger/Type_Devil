@@ -2,6 +2,8 @@ package mine.typed.core;
 
 import mine.typed.core.Type.TypeData;
 
+//TODO::갈아엎자
+
 /**
  *  변수의 값이 변경되어도 빠르게 복구가 가능하게 해주는 클래스입니다.
  * @author mrminer
@@ -36,7 +38,7 @@ public class KeyMaker {
 	 */
 	public void genOre(){
 		final double tmpore1 =  Math.random();
-		final double tmpore2 =  Math.random( );
+		final double tmpore2 =  Math.random();
 		this.ore = TypeData.getRandom( )+(1 * tmpore1 * tmpore2);
 		TypeData.setCuser( this.ore );
 	}

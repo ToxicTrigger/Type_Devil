@@ -73,7 +73,7 @@ public class GameSound extends DynamicGameObject {
 					l = 1.0f - (objPos.dist( this.position ) / (ScreenW / 2));
 					r = 1.0f - (objPos.dist( this.position ) / ScreenW);
 				}
-				this.sound.setVolume( l , r );
+				((Music) this.sound).setVolume( l , r );
 				
 			}
 		}else{

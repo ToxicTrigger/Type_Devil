@@ -8,6 +8,7 @@ import android.util.FloatMath;
 
 
 
+@SuppressWarnings("deprecation")
 public class V3 {
 	private static final float[ ] matrix = new float[ 16 ];
 	private static final float[ ] inVec = new float[ 4 ];

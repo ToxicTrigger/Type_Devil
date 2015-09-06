@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import mine.typed.core.Tube;
+
 
 // make instance
 // put TextureName and Texture Data 
@@ -21,15 +23,25 @@ public class TextureManager {
 		textures = new HashMap<String, Texture>();
 	}
 	
+	public TextureManager(GLGame glgame, Tube ...tubes) {
+		textures = new HashMap<String, Texture>();
+		for(int i = 0; i < tubes.length; i++){
+			Texture tex = new Texture(glgame, (String) tubes[i].getY());
+			textures.put((String)tubes[i].getX(), tex);
+		}
+	}
+	
 	public void reloadAll(){
-		Iterator<String> iter = textures.keySet().iterator();
-		Iterator<Texture> iterTex = textures.values().iterator();
-		while(iter.hasNext()){
-			Texture tex = iterTex.next();
-			tex.reload();
+		Iterator<String> keys = textures.keySet().iterator();
+		while(keys.hasNext()){
+			textures.get(keys.next()).reload();
 		}
 	}
 
+	/**
+	 * name = tex.filename
+	 * @param tex
+	 */
 	public void put(Texture tex){
 		this.textures.put(tex.fileName, tex);
 	}

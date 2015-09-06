@@ -18,6 +18,9 @@ public class GameObject{
 	public final Circle cir;
 
 	protected final ID id;
+	
+	public static final int L = 0, R = 1;
+	public int look;
 
 	public static final String TYPE_GAME_OBJECT = "<GameObject>";
 

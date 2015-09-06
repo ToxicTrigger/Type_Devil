@@ -29,8 +29,13 @@ public abstract class GLScreen extends Screen {
 
 	@Override
 	public abstract void pause( );
+	
+	@Override
+	public abstract void drawUpBuffer(float deltaTime);
 	@Override
 	public abstract void present(float arg0);
+	@Override
+	public abstract void drawBackBuffer(float deltaTime);
 
 	@Override
 	public abstract void resent(float arg0);
@@ -41,7 +46,10 @@ public abstract class GLScreen extends Screen {
 	//present 보다 먼저 호출 됨
 	@Override
 	public abstract void update(float arg0);
+	@Override
+	public abstract void lateUpdate(float arg0);
 
+	
 	/**
 	 * {@code update()} 에서 호출하세요
 	 */

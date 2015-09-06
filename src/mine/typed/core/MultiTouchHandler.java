@@ -66,6 +66,7 @@ public class MultiTouchHandler implements OnTouchListener , TouchHandler {
 	 *            터치 이벤트의 타입을 알아내는 인수
 	 * @return 터치의 여부를 판단.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onTouch(final View v, final MotionEvent event) {
 

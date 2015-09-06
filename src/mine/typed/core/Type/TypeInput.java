@@ -24,6 +24,7 @@ public class TypeInput implements Input {
 
 	TouchHandler touchHandler;
 
+	@SuppressWarnings("deprecation")
 	public TypeInput( final Context context, final View view, final float scaleX, final float scaleY ) {
 
 		if ( Integer.parseInt( VERSION.SDK ) < 5 ) {

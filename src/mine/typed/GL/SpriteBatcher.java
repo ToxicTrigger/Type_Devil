@@ -15,6 +15,7 @@ import android.util.FloatMath;
  * @author mrminer
  *
  */
+@SuppressWarnings("deprecation")
 public class SpriteBatcher {
 	final float[ ] verticesBuffer;
 	int bufferIndex;

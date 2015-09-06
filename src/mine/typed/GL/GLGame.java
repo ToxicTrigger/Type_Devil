@@ -42,9 +42,10 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 	Input input;
 	FileIO fileIO;
 	Screen screen;
-	GLGameState state = GLGameState.Initialized;
+	public GLGameState state = GLGameState.Initialized;
 	Object stateChanged = new Object( );
-	long startTime = System.nanoTime( );
+	public static long startTime = System.nanoTime( );
+	public static float delta;
 	
 	private static TypeLogger logger = TypeLogger.getInstance(  );
 	
@@ -116,7 +117,6 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 	public void onResume( ) {
 		super.onResume( );
 		
-		TextureManager.getInstance().reloadAll();
 		this.glView.onResume( );
 
 	}
@@ -135,7 +135,7 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 			}
 			this.state = GLGameState.Running;
 			this.screen.resume( );
-			this.startTime = System.nanoTime( );
+			startTime = System.nanoTime( );
 		}
 
 	}
@@ -152,11 +152,17 @@ public abstract class GLGame extends Activity implements Game , Renderer {
 		}
 
 		if ( state == GLGameState.Running ) {
-			final float deltaTime = (System.nanoTime( ) - this.startTime) / 1000000000.0f;
-			this.startTime = System.nanoTime( );
+			delta = (System.nanoTime( ) - GLGame.startTime) / 1000000000.0f;
+			final float del = delta;
+			GLGame.startTime = System.nanoTime( );
 
-			this.screen.update( deltaTime );
-			this.screen.present( deltaTime );
+			this.screen.update( del );
+			
+			this.screen.drawBackBuffer(del);
+			this.screen.present( del );
+			this.screen.drawUpBuffer(del);
+			
+			this.screen.lateUpdate(del);
 		}
 
 		if ( state == GLGameState.Paused ) {

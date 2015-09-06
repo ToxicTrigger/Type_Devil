@@ -11,11 +11,17 @@ import android.util.FloatMath;
  * @author mrminer
  *
  */
+@SuppressWarnings("deprecation")
 public class V2 {
 	/**
 	 * <code> TO_RADIANS = (1 / 180.0f) * (float) Math.PI </code>
 	 */
 	public static float TO_RADIANS = (1 / 180.0f) * (float) Math.PI;
+	
+	public static final int Up = 1;
+	public static final int Stop = 0;	
+	public static final int Down = -1;
+	
 	/**
 	 * <code> TO_DEGREES = (1 / (float) Math.PI) * 180 </code>
 	 */
@@ -34,6 +40,10 @@ public class V2 {
 	public V2( final float x, final float y ) {
 		this.x = x;
 		this.y = y;
+	}
+	
+	public float randomRange(float n1, float n2) {
+		  return (float) (Math.random() * (n2 - n1 + 1)) + n1;
 	}
 
 	/**

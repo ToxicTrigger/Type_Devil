@@ -10,6 +10,7 @@ package mine.typed.core;
 public class Sphere {
 	public final V3 center = new V3( );
 	public float radius;
+	public boolean isOverlaped;
 
 	/**
 	 * 3D 구 를 생성 합니다.

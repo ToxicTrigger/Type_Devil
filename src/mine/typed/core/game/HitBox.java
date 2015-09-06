@@ -21,7 +21,7 @@ public class HitBox extends Rectangle {
 	public final static int STATE_CHECK = 1;
 
 	private int state;
-
+	
 	public int getState( ) {
 		return this.state;
 	}

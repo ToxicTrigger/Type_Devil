@@ -28,8 +28,8 @@ public class FPSCounter {
 		}
 	}
 	/**
-	 * 
-	 * @return
+	 * 1초 마다 0 이상의 수를 반환한다.
+	 * @return -999 는 1초 전 프레임임 무시.
 	 */
 	public int getFrame(){
 		this.frames++;
@@ -39,7 +39,10 @@ public class FPSCounter {
 			tmp = this.frames;
 			this.frames = 0;
 			this.startTime = System.nanoTime( );
+			return tmp;
+		}else{
+			return -999;
 		}
-		return tmp;
+
 	}
 }

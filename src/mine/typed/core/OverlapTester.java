@@ -77,8 +77,12 @@ public class OverlapTester {
 				&& ((r1.lowerLeft.x + r1.width) > r2.lowerLeft.x)
 				&& (r1.lowerLeft.y < (r2.lowerLeft.y + r2.height))
 				&& ((r1.lowerLeft.y + r1.height) > r2.lowerLeft.y) ) {
+			r1.isOverlaped = true;
+			r2.isOverlaped = true;
 			return true;
 		} else {
+			r1.isOverlaped = false;
+			r2.isOverlaped = false;
 			return false;
 		}
 	}
@@ -90,25 +94,39 @@ public class OverlapTester {
 	 * @return
 	 */
 	public static boolean overlapHitBoxs(final HitBox h1, final HitBox h2) {
-
-		if ( (h1.lowerLeft.x < (h2.lowerLeft.x + h2.width))
-				&& ((h1.lowerLeft.x + h1.width) > h2.lowerLeft.x)
-				&& (h1.lowerLeft.y < (h2.lowerLeft.y + h2.height))
-				&& ((h1.lowerLeft.y + h1.height) > h2.lowerLeft.y) ) {
-			return true;
-		} else {
+		if(h1.getState() == HitBox.STATE_CHECK & h1.getState() == HitBox.STATE_CHECK){
+			if ( (h1.lowerLeft.x < (h2.lowerLeft.x + h2.width))
+					&& ((h1.lowerLeft.x + h1.width) > h2.lowerLeft.x)
+					&& (h1.lowerLeft.y < (h2.lowerLeft.y + h2.height))
+					&& ((h1.lowerLeft.y + h1.height) > h2.lowerLeft.y) ) {
+				h1.isOverlaped = true;
+				h2.isOverlaped = true;
+				return true;
+			} else {
+				h1.isOverlaped = false;
+				h2.isOverlaped = false;
+				return false;
+			}
+		}else{
+			h1.isOverlaped = false;
+			h2.isOverlaped = false;
 			return false;
 		}
+
 	}
 	
 	public static boolean overlapHitBoxAndRectangle(final HitBox h, final Rectangle r) {
-
+		if(h.getState() == HitBox.STATE_UNCHECK) return false;
 		if ( (h.lowerLeft.x < (h.lowerLeft.x + h.width))
 				&& ((h.lowerLeft.x + h.width) > h.lowerLeft.x)
 				&& (h.lowerLeft.y < (h.lowerLeft.y + h.height))
 				&& ((h.lowerLeft.y + h.height) > h.lowerLeft.y) ) {
+			h.isOverlaped = true;
+			r.isOverlaped = true;
 			return true;
 		} else {
+			h.isOverlaped = false;
+			r.isOverlaped = false;
 			return false;
 		}
 	}
@@ -136,8 +154,19 @@ public class OverlapTester {
 		} else if ( c.center.y > (r.lowerLeft.y + r.height) ) {
 			closestY = r.lowerLeft.y + r.height;
 		}
-
-		return c.center.distSquared( closestX , closestY ) < (c.radius * c.radius);
+		
+		if(c.center.distSquared( closestX , closestY ) < (c.radius * c.radius))
+		{
+			c.isOverlaped = true;
+			r.isOverlaped = true;
+		}
+		else
+		{
+			c.isOverlaped = false;
+			r.isOverlaped = false;	
+		}
+		
+		return c.isOverlaped & r.isOverlaped;
 	}
 	
 	/**
@@ -147,7 +176,7 @@ public class OverlapTester {
 	 * @return
 	 */
 	public static boolean overlapCircleHitBox(final Circle c, final HitBox h) {
-
+		if(h.getState() == HitBox.STATE_UNCHECK) return false;
 		float closestX = c.center.x;
 		float closestY = c.center.y;
 
@@ -162,8 +191,19 @@ public class OverlapTester {
 		} else if ( c.center.y > (h.lowerLeft.y + h.height) ) {
 			closestY = h.lowerLeft.y + h.height;
 		}
-
-		return c.center.distSquared( closestX , closestY ) < (c.radius * c.radius);
+		
+		if(c.center.distSquared( closestX , closestY ) < (c.radius * c.radius))
+		{
+			c.isOverlaped = true;
+			h.isOverlaped = true;
+		}
+		else
+		{
+			c.isOverlaped = false;
+			h.isOverlaped = false;	
+		}
+		
+		return c.isOverlaped;
 	}
 	
 	/**
@@ -177,7 +217,17 @@ public class OverlapTester {
 
 		final float distance = s1.center.distSquared( s2.center );
 		final float radiusSum = s1.radius + s2.radius;
-		return distance <= (radiusSum * radiusSum);
+		if(distance <= (radiusSum * radiusSum))
+		{
+			s1.isOverlaped = true;
+			s2.isOverlaped = true;
+		}
+		else
+		{
+			s1.isOverlaped = false;
+			s2.isOverlaped = false;
+		}
+		return s1.isOverlaped;
 	}
 
 	/**
@@ -187,9 +237,17 @@ public class OverlapTester {
 	 * @param p
 	 * @return 좌표에 구가 포함된다면 true , 아니라면 false
 	 */
-	public static boolean pointInSphere(final Sphere c, final V3 p) {
+	public static boolean pointInSphere(final Sphere s, final V3 p) {
+		if(s.center.distSquared( p ) < (s.radius * s.radius))
+		{
+			s.isOverlaped = true;
+		}
+		else
+		{
+			s.isOverlaped = false;
+		}
 
-		return c.center.distSquared( p ) < (c.radius * c.radius);
+		return s.isOverlaped;
 	}
 	/**
 	 * 구가 X,Y,Z 가 정의하는 좌표에 포함되는지 체크 하는 메서드
@@ -212,8 +270,16 @@ public class OverlapTester {
 	 * @return 원이 좌표속에 속한다면 true, 아니라면 false
 	 */
 	public static boolean pointInCircle(final Circle c, final V2 p) {
+		if(c.center.distSquared( p ) < (c.radius * c.radius))
+		{
+			c.isOverlaped = true;
+		}
+		else
+		{
+			c.isOverlaped = false;
+		}
 
-		return c.center.distSquared( p ) < (c.radius * c.radius);
+		return c.isOverlaped;
 	}
 	/**
 	 * 원이 X,Y 가 정의하는 좌표에 속하는지 체크하는 메서드
@@ -224,8 +290,16 @@ public class OverlapTester {
 	 * @return 원이 좌표속에 속한다면 true, 아니라면 false
 	 */
 	public static boolean pointInCircle(final Circle c, final float x, final float y) {
+		if(c.center.distSquared( x,y ) < (c.radius * c.radius))
+		{
+			c.isOverlaped = true;
+		}
+		else
+		{
+			c.isOverlaped = false;
+		}
 
-		return c.center.distSquared( x , y ) < (c.radius * c.radius);
+		return c.isOverlaped;
 	}
 	/**
 	 * 사각형이 v2 가 정의하는 좌표에 속하는지 체크하는 메서드
@@ -235,17 +309,29 @@ public class OverlapTester {
 	 * @return 사각형이 좌표속에 속한다면 true, 아니라면 false
 	 */
 	public static boolean pointInRectangle(final Rectangle r, final V2 p) {
-
-		return (r.lowerLeft.x <= p.x) && ((r.lowerLeft.x + r.width) >= p.x)
-				&& (r.lowerLeft.y <= p.y)
-				&& ((r.lowerLeft.y + r.height) >= p.y);
+		if((r.lowerLeft.x <= p.x) && ((r.lowerLeft.x + r.width) >= p.x) && 
+		   (r.lowerLeft.y <= p.y) && ((r.lowerLeft.y + r.height) >= p.y))
+		{
+			r.isOverlaped = true;
+		}
+		else
+		{
+			r.isOverlaped = false;
+		}
+		return r.isOverlaped;
 	}
 	
 	public static boolean pointInHitBox(final HitBox h, final V2 p) {
-
-		return (h.lowerLeft.x <= p.x) && ((h.lowerLeft.x + h.width) >= p.x)
-				&& (h.lowerLeft.y <= p.y)
-				&& ((h.lowerLeft.y + h.height) >= p.y);
+		if((h.lowerLeft.x <= p.x) && ((h.lowerLeft.x + h.width) >= p.x) && 
+		   (h.lowerLeft.y <= p.y) && ((h.lowerLeft.y + h.height) >= p.y))
+		{
+			h.isOverlaped = true;
+		}				
+		else
+		{
+			h.isOverlaped = false;
+		}
+		return h.isOverlaped;
 	}
 	
 	/**
@@ -257,15 +343,29 @@ public class OverlapTester {
 	 * @return 사각형이 좌표속에 속한다면 true, 아니라면 false
 	 */
 	public static boolean pointInRectangle(final Rectangle r, final float x, final float y) {
-
-		return (r.lowerLeft.x <= x) && ((r.lowerLeft.x + r.width) >= x)
-				&& (r.lowerLeft.y <= y) && ((r.lowerLeft.y + r.height) >= y);
+		if((r.lowerLeft.x <= x) && ((r.lowerLeft.x + r.width) >= x) && 
+				   (r.lowerLeft.y <= y) && ((r.lowerLeft.y + r.height) >= y))
+				{
+					r.isOverlaped = true;
+				}				
+				else
+				{
+					r.isOverlaped = false;
+				}
+				return r.isOverlaped;
 	}
 
 	public static boolean pointInHitBox(final HitBox h, final float x, final float y) {
-
-		return (h.lowerLeft.x <= x) && ((h.lowerLeft.x + h.width) >= x)
-				&& (h.lowerLeft.y <= y) && ((h.lowerLeft.y + h.height) >= y);
+		if((h.lowerLeft.x <= x) && ((h.lowerLeft.x + h.width) >= x) && 
+				   (h.lowerLeft.y <= y) && ((h.lowerLeft.y + h.height) >= y))
+				{
+					h.isOverlaped = true;
+				}				
+				else
+				{
+					h.isOverlaped = false;
+				}
+				return h.isOverlaped;
 	}
 	
 	/**

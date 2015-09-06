@@ -20,6 +20,8 @@ public abstract class Screen {
 	 * @param deltaTime
 	 */
 	public abstract void update(float deltaTime);
+	public abstract void lateUpdate(float deltaTime);
+	
 
 	public abstract void resent(float deltaTime);
 	/**
@@ -27,7 +29,9 @@ public abstract class Screen {
 	 * @param deltaTime
 	 */
 	public abstract void present(float deltaTime);
-
+	public abstract void drawBackBuffer(float deltaTime);
+	public abstract void drawUpBuffer(float deltaTime);
+	
 
 	/**
 	 * 일시정지 이벤트가 발생할 경우 처리할 내용을 기술합니다.
@@ -42,6 +46,11 @@ public abstract class Screen {
 	 * 스크린이 제거 될때 행동
 	 */
 	public abstract void dispose( );
+	
+	/**
+	 * {@code update()} 에서 호출하세요
+	 */
+	public abstract void updateTouch();
 
 
 }

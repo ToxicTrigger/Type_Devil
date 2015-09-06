@@ -26,6 +26,7 @@ public class TypeAudio implements Audio {
 	SoundPool pool;
 
 
+	@SuppressWarnings("deprecation")
 	public TypeAudio( final Activity activity ) {
 
 		// 시스템에서 설정된 미디어 볼륨 값을 기본으로 한다.

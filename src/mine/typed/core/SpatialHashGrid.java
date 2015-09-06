@@ -17,6 +17,7 @@ import android.util.FloatMath;
  * @author mrminer
  *
  */
+@SuppressWarnings("deprecation")
 public class SpatialHashGrid {
 	List<GameObject>[ ] dynamicCells;
 	List<GameObject>[ ] staticCells;
@@ -26,7 +27,7 @@ public class SpatialHashGrid {
 	int[ ] cellIds = new int[ 4 ];
 	List<GameObject> foundObjects;
 
-	@SuppressWarnings ( "unchecked" )
+	@SuppressWarnings ( { "unchecked" } )
 	public SpatialHashGrid( final float worldWidth, final float worldHeight, final float cellSize ) {
 
 		this.cellSize = cellSize;
