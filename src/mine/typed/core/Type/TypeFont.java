@@ -19,166 +19,165 @@ import android.util.Log;
  * @author mrminer
  *
  */
-public class TypeFont
-{
+public class TypeFont {
 
-	Bitmap mbit;
-	Bitmap b;
-	Canvas c;
+    Bitmap mbit;
+    Bitmap b;
+    Canvas c;
 
-	public Paint pin;
-	public Typeface face;
-	public GLGame glga;
-	public GLGraphics gLGraphics;
+    public Paint pin;
+    public Typeface face;
+    public GLGame glga;
+    public GLGraphics gLGraphics;
 
-	public SpriteBatcher sb;
-	public Texture tex;
-	public TextureRegion texr;
+    public SpriteBatcher sb;
+    public Texture tex;
+    public TextureRegion texr;
 
-	public String text;
+    public String text;
 
-	public float fa, fr, fg, fb;
+    public float fa, fr, fg, fb;
 
-	public TypeFont(final String FontLocation, final GLGame glgame, final GLGraphics gLGraphics)
-	{
+    public TypeFont(final String FontLocation, final GLGame glgame,
+	    final GLGraphics gLGraphics) {
 
-		this.glga = glgame;
-		this.face = Typeface.createFromAsset(this.glga.getAssets(), FontLocation);
-		this.gLGraphics = gLGraphics;
+	this.glga = glgame;
+	this.face = Typeface
+		.createFromAsset(this.glga.getAssets(), FontLocation);
+	this.gLGraphics = gLGraphics;
 
-		this.pin = new Paint();
-		this.pin.setTypeface(this.face);
-		this.pin.setColor(Color.BLACK);
-		this.pin.setTextSize(9);
-		this.pin.setAntiAlias(false);
-		this.pin.setTextScaleX(1);
+	this.pin = new Paint();
+	this.pin.setTypeface(this.face);
+	this.pin.setColor(Color.BLACK);
+	this.pin.setTextSize(9);
+	this.pin.setAntiAlias(false);
+	this.pin.setTextScaleX(1);
 
-		Log.i("< Type_Font >", "TypeFont is live and his Code is " + this.hashCode());
-		// mbit = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
-		// b = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
+	Log.i("< Type_Font >", "TypeFont is live and his Code is " + this
+		.hashCode());
+	// mbit = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
+	// b = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
 
+    }
+
+    public void makeText(final String Text, final GLGame glga, final int Color,
+	    final float TextSize, final boolean AntiA, final boolean mipmap) {
+
+	if (this.text == Text) {
+	    return;
 	}
 
-	public void makeText(final String Text, final GLGame glga, final int Color, final float TextSize, final boolean AntiA, final boolean mipmap)
-	{
+	final Bitmap mmbit = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
+	final Bitmap bb = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
 
-		if( this.text == Text )
-		{
-			return;
-		}
+	this.pin.setTextSize(TextSize);
+	this.pin.setColor(Color);
+	this.pin.setAntiAlias(AntiA);
 
-		final Bitmap mmbit = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
-		final Bitmap bb = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
+	this.text = Text;
 
-		this.pin.setTextSize(TextSize);
-		this.pin.setColor(Color);
-		this.pin.setAntiAlias(AntiA);
+	Canvas c = new Canvas(bb);
+	c.drawBitmap(mmbit, 0, 0, null);
+	c.drawText(Text, 0, this.pin.getTextSize(), this.pin);
 
-		this.text = Text;
+	this.tex = new Texture(glga, bb, mipmap);
+	this.texr = new TextureRegion(this.tex, 0, 0, 512, 128);
 
-		Canvas c = new Canvas(bb);
-		c.drawBitmap(mmbit, 0, 0, null);
-		c.drawText(Text, 0, this.pin.getTextSize(), this.pin);
+	c = null;
+	bb.recycle();
+	mmbit.recycle();
+    }
 
-		this.tex = new Texture(glga, bb, mipmap);
-		this.texr = new TextureRegion(this.tex, 0, 0, 512, 128);
+    public void makeText(final String Text, final GLGame glga, final int a,
+	    final int r, final int g, final int b, final float textSize,
+	    final boolean AntiA, final boolean mipmap) {
 
-		c = null;
-		bb.recycle();
-		mmbit.recycle();
+	if (this.text == Text) {
+	    return;
 	}
 
-	public void makeText(final String Text, final GLGame glga, final int a, final int r, final int g, final int b, final float textSize, final boolean AntiA, final boolean mipmap)
-	{
+	this.pin.setTextSize(textSize);
+	this.pin.setARGB(a, r, g, b);
+	this.pin.setAntiAlias(AntiA);
 
-		if( this.text == Text )
-		{
-			return;
-		}
+	this.text = Text;
+	this.fa = a;
+	this.fr = r;
+	this.fg = g;
+	this.fb = b;
 
-		this.pin.setTextSize(textSize);
-		this.pin.setARGB(a, r, g, b);
-		this.pin.setAntiAlias(AntiA);
+	final Bitmap mmbit = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
+	final Bitmap bb = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
+	this.b = bb;
 
-		this.text = Text;
-		this.fa = a;
-		this.fr = r;
-		this.fg = g;
-		this.fb = b;
+	Canvas c = new Canvas(bb);
+	c.drawBitmap(mmbit, 0, 0, null);
+	c.drawText(Text, 0, this.pin.getTextSize(), this.pin);
+	this.tex = new Texture(glga, bb, mipmap);
+	this.texr = new TextureRegion(this.tex, 0, 0, 512, 128);
 
-		final Bitmap mmbit = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
-		final Bitmap bb = Bitmap.createBitmap(512, 128, Config.ARGB_8888);
-		this.b = bb;
+	c = null;
+	bb.recycle();
+	mmbit.recycle();
+    }
 
-		Canvas c = new Canvas(bb);
-		c.drawBitmap(mmbit, 0, 0, null);
-		c.drawText(Text, 0, this.pin.getTextSize(), this.pin);
-		this.tex = new Texture(glga, bb, mipmap);
-		this.texr = new TextureRegion(this.tex, 0, 0, 512, 128);
+    public Texture getTexture() {
 
-		c = null;
-		bb.recycle();
-		mmbit.recycle();
-	}
+	return this.tex;
+    }
 
-	public Texture getTexture()
-	{
+    public TextureRegion getTextureRegion() {
 
-		return this.tex;
-	}
+	return this.texr;
+    }
 
-	public TextureRegion getTextureRegion()
-	{
+    public void drawText(final SpriteBatcher SB, final float x, final float y,
+	    final float angle) {
 
-		return this.texr;
-	}
+	SB.beginBatch(this.tex);
+	SB.drawSprite(x + 256, y - 64, 512, 128, angle, this.texr);
+	SB.endBatch();
+    }
 
-	public void drawText(final SpriteBatcher SB, final float x, final float y, final float angle)
-	{
+    public void drawText(final SpriteBatcher SB, final float x, final float y,
+	    final float angle, final String Text, final GLGame glga,
+	    final int Color, final float textSize, final boolean AntiA,
+	    final boolean mipmap) {
 
-		SB.beginBatch(this.tex);
-		SB.drawSprite(x + 256, y - 64, 512, 128, angle, this.texr);
-		SB.endBatch();
-	}
+	this.makeText(Text, glga, Color, textSize, AntiA, mipmap);
+	this.drawText(SB, x, y, angle);
+    }
 
-	public void drawText(final SpriteBatcher SB, final float x, final float y, final float angle, final String Text, final GLGame glga, final int Color, final float textSize, final boolean AntiA, final boolean mipmap)
-	{
+    /*
+     * public void drawFont(SpriteBatcher SB ,float x , float y , float angle,
+     * String Text ){ SpriteBatcher ssb = SB; Bitmap newbitmap =
+     * Bitmap.createBitmap(512, 128, Config.ARGB_8888); Canvas c = new
+     * Canvas(newbitmap); c.drawBitmap(mbit, 0, 0, null); c.drawText(Text , 0 ,
+     * pin.getTextSize() , pin); Texture ttex = new Texture(glga, newbitmap,
+     * false); mbit.recycle(); mbit = newbitmap; newbitmap.recycle();
+     * TextureRegion ttexr = new TextureRegion(ttex, 0, 0, 512, 128);
+     * ssb.beginBatch(ttex); ssb.drawSprite(x + 256 , y - 64 , 512, 128, angle,
+     * ttexr); ssb.endBatch(); //sb.endBatch(); } public void
+     * drawFontnonMakeBitmap(float x , float y , float angle, String Text ){
+     * Canvas c = new Canvas(b); c.drawBitmap(mbit, 0, 0, null); c.drawText(Text
+     * , 0 , pin.getTextSize() , pin);
+     */
 
-		this.makeText(Text, glga, Color, textSize, AntiA, mipmap);
-		this.drawText(SB, x, y, angle);
-	}
+    /*
+     * Texture ttex = new Texture(glga, b, false); TextureRegion ttexr = new
+     * TextureRegion(ttex, 0, 0, 512, 128);
+     */
 
-	/*
-	 * public void drawFont(SpriteBatcher SB ,float x , float y , float angle,
-	 * String Text ){ SpriteBatcher ssb = SB; Bitmap newbitmap =
-	 * Bitmap.createBitmap(512, 128, Config.ARGB_8888); Canvas c = new
-	 * Canvas(newbitmap); c.drawBitmap(mbit, 0, 0, null); c.drawText(Text , 0 ,
-	 * pin.getTextSize() , pin); Texture ttex = new Texture(glga, newbitmap,
-	 * false); mbit.recycle(); mbit = newbitmap; newbitmap.recycle();
-	 * TextureRegion ttexr = new TextureRegion(ttex, 0, 0, 512, 128);
-	 * ssb.beginBatch(ttex); ssb.drawSprite(x + 256 , y - 64 , 512, 128, angle,
-	 * ttexr); ssb.endBatch(); //sb.endBatch(); } public void
-	 * drawFontnonMakeBitmap(float x , float y , float angle, String Text ){
-	 * Canvas c = new Canvas(b); c.drawBitmap(mbit, 0, 0, null); c.drawText(Text
-	 * , 0 , pin.getTextSize() , pin);
-	 */
+    /*
+     * tex.reloadB(); TextureRegion ttexr = new TextureRegion(tex, 0, 0, 512,
+     * 128); sb.beginBatch(tex); sb.drawSprite(x + 256 , y , 512, 128, angle,
+     * ttexr); } public void endFont(){ sb.endBatch(); } public Paint
+     * getPaint(){ return pin; } public void setPaint(Paint p){ pin = p; }
+     */
 
-	/*
-	 * Texture ttex = new Texture(glga, b, false); TextureRegion ttexr = new
-	 * TextureRegion(ttex, 0, 0, 512, 128);
-	 */
+    public void reload() {
 
-	/*
-	 * tex.reloadB(); TextureRegion ttexr = new TextureRegion(tex, 0, 0, 512,
-	 * 128); sb.beginBatch(tex); sb.drawSprite(x + 256 , y , 512, 128, angle,
-	 * ttexr); } public void endFont(){ sb.endBatch(); } public Paint
-	 * getPaint(){ return pin; } public void setPaint(Paint p){ pin = p; }
-	 */
-
-	public void reload()
-	{
-
-		this.tex.reloadB();
-	}
+	this.tex.reloadB();
+    }
 
 }

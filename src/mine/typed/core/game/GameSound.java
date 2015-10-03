@@ -10,114 +10,98 @@ import mine.typed.core.interfaces.Sound;
  * @author mrminer
  *
  */
-public class GameSound extends DynamicGameObject
-{
+public class GameSound extends DynamicGameObject {
 
-	public Sound sound;
-	public Music music;
+    public Sound sound;
+    public Music music;
 
-	public float l, r;
+    public float l, r;
 
-	/**
-	 * 사운드는 하나의 점으로 판단합니다.
-	 * 
-	 * @param x
-	 * @param y
-	 * @param r
-	 * @param sound
-	 *            이 객체가 가질 소리 입니다.
-	 */
-	public GameSound(float x, float y, float r, Sound sound)
-	{
-		super(x, y, r);
-		this.sound = sound;
-	}
+    /**
+     * 사운드는 하나의 점으로 판단합니다.
+     * 
+     * @param x
+     * @param y
+     * @param r
+     * @param sound
+     *            이 객체가 가질 소리 입니다.
+     */
+    public GameSound(float x, float y, float r, Sound sound) {
+	super(x, y, r);
+	this.sound = sound;
+    }
 
-	/**
-	 * 사운드는 하나의 점으로 판단합니다.
-	 * 
-	 * @param x
-	 * @param y
-	 * @param r
-	 * @param music
-	 *            이 객체가 가질 음악 입니다.
-	 */
-	public GameSound(float x, float y, float r, Music music)
-	{
-		super(x, y, r);
-		this.music = music;
-	}
+    /**
+     * 사운드는 하나의 점으로 판단합니다.
+     * 
+     * @param x
+     * @param y
+     * @param r
+     * @param music
+     *            이 객체가 가질 음악 입니다.
+     */
+    public GameSound(float x, float y, float r, Music music) {
+	super(x, y, r);
+	this.music = music;
+    }
 
-	public void playSound()
-	{
+    public void playSound() {
 
-	}
+    }
 
-	public void playMusic(boolean loop)
-	{
+    public void playMusic(boolean loop) {
 
-	}
+    }
 
-	/**
-	 * 3D 볼륨을 구현화 한 코드 입니다.
-	 * <p>
-	 * <code> update() <code> 에 포함시켜서 수시로 검사하게 하세요.
-	 * 
-	 * @param 거리를
-	 *            잴 객체
-	 * @param 화면의
-	 *            가로 길이
-	 */
-	public void updateVolum(V2 objPos, float ScreenW)
-	{
+    /**
+     * 3D 볼륨을 구현화 한 코드 입니다.
+     * <p>
+     * <code> update() <code> 에 포함시켜서 수시로 검사하게 하세요.
+     * 
+     * @param 거리를
+     *            잴 객체
+     * @param 화면의
+     *            가로 길이
+     */
+    public void updateVolum(V2 objPos, float ScreenW) {
 
-		if( this.sound != null )
-		{
-			// 화면 밖에 있다고 가정 했을때.
-			if( this.position.dist(objPos) > ScreenW )
-			{
-				l = 0;
-				r = 0;
-				this.sound.setVolume(l, r);
-			} else
-			{
+	if (this.sound != null) {
+	    // 화면 밖에 있다고 가정 했을때.
+	    if (this.position.dist(objPos) > ScreenW) {
+		l = 0;
+		r = 0;
+		this.sound.setVolume(l, r);
+	    } else {
 
-				final float x = objPos.x - this.position.x;
-				if( x > 0 )
-				{
-					l = 1.0f - (objPos.dist(this.position) / ScreenW);
-					r = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
-				} else
-				{
-					l = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
-					r = 1.0f - (objPos.dist(this.position) / ScreenW);
-				}
-				((Music) this.sound).setVolume(l, r);
-
-			}
-		} else
-		{
-			// 화면 밖에 있다고 가정 했을때.
-			if( this.position.dist(objPos) > ScreenW )
-			{
-				l = 0;
-				r = 0;
-				this.music.setVolume(l, r);
-			} else
-			{
-				final float x = objPos.x - this.position.x;
-				if( x > 0 )
-				{
-					l = 1.0f - (objPos.dist(this.position) / ScreenW);
-					r = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
-				} else
-				{
-					l = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
-					r = 1.0f - (objPos.dist(this.position) / ScreenW);
-				}
-				this.music.setVolume(l, r);
-			}
+		final float x = objPos.x - this.position.x;
+		if (x > 0) {
+		    l = 1.0f - (objPos.dist(this.position) / ScreenW);
+		    r = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
+		} else {
+		    l = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
+		    r = 1.0f - (objPos.dist(this.position) / ScreenW);
 		}
+		((Music) this.sound).setVolume(l, r);
+
+	    }
+	} else {
+	    // 화면 밖에 있다고 가정 했을때.
+	    if (this.position.dist(objPos) > ScreenW) {
+		l = 0;
+		r = 0;
+		this.music.setVolume(l, r);
+	    } else {
+		final float x = objPos.x - this.position.x;
+		if (x > 0) {
+		    l = 1.0f - (objPos.dist(this.position) / ScreenW);
+		    r = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
+		} else {
+		    l = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
+		    r = 1.0f - (objPos.dist(this.position) / ScreenW);
+		}
+		this.music.setVolume(l, r);
+	    }
 	}
+    }
 
 }

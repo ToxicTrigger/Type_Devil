@@ -9,52 +9,50 @@ import mine.typed.core.interfaces.Game;
  * @author mrminer
  *
  */
-public abstract class GLScreen extends Screen
-{
+public abstract class GLScreen extends Screen {
 
-	protected final GLGraphics gLGraphics;
-	protected final GLGame glgame;
+    protected final GLGraphics gLGraphics;
+    protected final GLGame glgame;
 
-	public GLScreen(final Game game)
-	{
+    public GLScreen(final Game game) {
 
-		super(game);
-		this.glgame = (GLGame) game;
-		this.gLGraphics = ((GLGame) game).getGLGraphics();
-	}
+	super(game);
+	this.glgame = (GLGame) game;
+	this.gLGraphics = ((GLGame) game).getGLGraphics();
+    }
 
-	@Override
-	public abstract void dispose();
+    @Override
+    public abstract void dispose();
 
-	@Override
-	public abstract void pause();
+    @Override
+    public abstract void pause();
 
-	@Override
-	public abstract void drawUpBuffer(float deltaTime);
+    @Override
+    public abstract void drawUpBuffer(float deltaTime);
 
-	@Override
-	public abstract void present(float arg0);
+    @Override
+    public abstract void present(float arg0);
 
-	@Override
-	public abstract void drawBackBuffer(float deltaTime);
+    @Override
+    public abstract void drawBackBuffer(float deltaTime);
 
-	@Override
-	public abstract void resent(float arg0);
+    @Override
+    public abstract void resent(float arg0);
 
-	@Override
-	public abstract void resume();
+    @Override
+    public abstract void resume();
 
-	// present 보다 먼저 호출 됨
-	@Override
-	public abstract void update(float arg0);
+    // present 보다 먼저 호출 됨
+    @Override
+    public abstract void update(float arg0);
 
-	@Override
-	public abstract void lateUpdate(float arg0);
+    @Override
+    public abstract void lateUpdate(float arg0);
 
-	/**
-	 * {@code update()} 에서 호출하세요
-	 */
-	@Override
-	public abstract void updateTouch();
+    /**
+     * {@code update()} 에서 호출하세요
+     */
+    @Override
+    public abstract void updateTouch();
 
 }

@@ -1,11 +1,10 @@
 package mine.typed.core.game.state;
 
-public abstract class Status
-{
+public abstract class Status {
 
-	/**
-	 * export on overrider.
-	 */
-	public abstract void export();
+    /**
+     * export on overrider.
+     */
+    public abstract void export();
 
 }

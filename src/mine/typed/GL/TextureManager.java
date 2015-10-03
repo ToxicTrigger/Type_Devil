@@ -8,70 +8,59 @@ import mine.typed.core.Tube;
 
 // make instance
 // put TextureName and Texture Data 
-public class TextureManager
-{
+public class TextureManager {
 
-	private static volatile TextureManager me;
-	public Map<String, Texture> textures;
+    private static volatile TextureManager me;
+    public Map<String, Texture> textures;
 
-	public static TextureManager getInstance()
-	{
-		if( me == null ) me = new TextureManager();
-		return me;
+    public static TextureManager getInstance() {
+	if (me == null)
+	    me = new TextureManager();
+	return me;
+    }
+
+    public TextureManager() {
+	textures = new HashMap<String, Texture>();
+    }
+
+    public TextureManager(GLGame glgame, Tube... tubes) {
+	textures = new HashMap<String, Texture>();
+	for (int i = 0; i < tubes.length; i++) {
+	    Texture tex = new Texture(glgame, (String) tubes[i].getY());
+	    textures.put((String) tubes[i].getX(), tex);
 	}
+    }
 
-	public TextureManager()
-	{
-		textures = new HashMap<String, Texture>();
+    public void reloadAll() {
+	Iterator<String> keys = textures.keySet().iterator();
+	while (keys.hasNext()) {
+	    textures.get(keys.next()).reload();
 	}
+    }
 
-	public TextureManager(GLGame glgame, Tube... tubes)
-	{
-		textures = new HashMap<String, Texture>();
-		for ( int i = 0; i < tubes.length; i++ )
-		{
-			Texture tex = new Texture(glgame, (String) tubes[ i ].getY());
-			textures.put((String) tubes[ i ].getX(), tex);
-		}
-	}
+    /**
+     * name = tex.filename
+     * 
+     * @param tex
+     */
+    public void put(Texture tex) {
+	this.textures.put(tex.fileName, tex);
+    }
 
-	public void reloadAll()
-	{
-		Iterator<String> keys = textures.keySet().iterator();
-		while ( keys.hasNext() )
-		{
-			textures.get(keys.next()).reload();
-		}
-	}
+    public Texture get(String name) {
+	return this.textures.get(name);
+    }
 
-	/**
-	 * name = tex.filename
-	 * 
-	 * @param tex
-	 */
-	public void put(Texture tex)
-	{
-		this.textures.put(tex.fileName, tex);
-	}
+    public Texture get(Texture tex) {
+	return this.textures.get(tex.fileName);
+    }
 
-	public Texture get(String name)
-	{
-		return this.textures.get(name);
-	}
+    public void remove(String name) {
+	this.textures.remove(name);
+    }
 
-	public Texture get(Texture tex)
-	{
-		return this.textures.get(tex.fileName);
-	}
-
-	public void remove(String name)
-	{
-		this.textures.remove(name);
-	}
-
-	public void remove(Texture tex)
-	{
-		this.textures.remove(tex.fileName);
-	}
+    public void remove(Texture tex) {
+	this.textures.remove(tex.fileName);
+    }
 
 }

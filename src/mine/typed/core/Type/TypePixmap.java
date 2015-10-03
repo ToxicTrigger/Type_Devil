@@ -4,56 +4,48 @@ import mine.typed.core.interfaces.Graphic.PixmapFormat;
 import mine.typed.core.interfaces.Pixmap;
 import android.graphics.Bitmap;
 
-public class TypePixmap implements Pixmap
-{
-	Bitmap mbit;
-	PixmapFormat format;
-	TypePixmap singturn;
-	boolean turn;
+public class TypePixmap implements Pixmap {
+    Bitmap mbit;
+    PixmapFormat format;
+    TypePixmap singturn;
+    boolean turn;
 
-	public TypePixmap(final Bitmap bitmap, final PixmapFormat format)
-	{
+    public TypePixmap(final Bitmap bitmap, final PixmapFormat format) {
 
-		this.mbit = bitmap;
-		this.format = format;
+	this.mbit = bitmap;
+	this.format = format;
+    }
+
+    public TypePixmap getInstance(final Bitmap bitmap, final PixmapFormat format) {
+
+	if (this.singturn == null) {
+	    this.singturn = new TypePixmap(bitmap, format);
 	}
+	return this.singturn;
+    }
 
-	public TypePixmap getInstance(final Bitmap bitmap, final PixmapFormat format)
-	{
+    @Override
+    public int getW() {
 
-		if( this.singturn == null )
-		{
-			this.singturn = new TypePixmap(bitmap, format);
-		}
-		return this.singturn;
-	}
+	return this.mbit.getWidth();
+    }
 
-	@Override
-	public int getW()
-	{
+    @Override
+    public int getH() {
 
-		return this.mbit.getWidth();
-	}
+	return this.mbit.getHeight();
+    }
 
-	@Override
-	public int getH()
-	{
+    @Override
+    public PixmapFormat getFormat() {
 
-		return this.mbit.getHeight();
-	}
+	return this.format;
+    }
 
-	@Override
-	public PixmapFormat getFormat()
-	{
+    @Override
+    public void dispose() {
 
-		return this.format;
-	}
-
-	@Override
-	public void dispose()
-	{
-
-		this.mbit.recycle();
-	}
+	this.mbit.recycle();
+    }
 
 }
