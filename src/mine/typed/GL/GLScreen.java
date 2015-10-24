@@ -14,12 +14,12 @@ public abstract class GLScreen extends Screen {
     protected final GLGraphics gLGraphics;
     protected final GLGame glgame;
 
-    public GLScreen(final Game game) {
-
-	super(game);
-	this.glgame = (GLGame) game;
-	this.gLGraphics = ((GLGame) game).getGLGraphics();
+    public GLScreen(final Game game,int rendererMinPriority ) {
+    	super(game, rendererMinPriority);
+    	this.glgame = (GLGame) game;
+    	this.gLGraphics = ((GLGame) game).getGLGraphics();
     }
+    
 
     @Override
     public abstract void dispose();
@@ -28,21 +28,11 @@ public abstract class GLScreen extends Screen {
     public abstract void pause();
 
     @Override
-    public abstract void drawUpBuffer(float deltaTime);
-
-    @Override
-    public abstract void present(float arg0);
-
-    @Override
-    public abstract void drawBackBuffer(float deltaTime);
-
-    @Override
     public abstract void resent(float arg0);
 
     @Override
     public abstract void resume();
-
-    // present 보다 먼저 호출 됨
+    
     @Override
     public abstract void update(float arg0);
 

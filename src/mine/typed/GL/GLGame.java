@@ -148,11 +148,9 @@ public abstract class GLGame extends Activity implements Game, Renderer {
 	    final float del = delta;
 	    GLGame.startTime = System.nanoTime();
 
-	    this.screen.update(del);
-
-	    this.screen.drawBackBuffer(del);
-	    this.screen.present(del);
-	    this.screen.drawUpBuffer(del);
+	    this.screen.updateFinally(del);
+	    
+	    this.screen.callRenderers(del);
 
 	    this.screen.lateUpdate(del);
 	}

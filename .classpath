@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/home/mrminer/Dropbox (Byulbram Studio)/LoneWolves/Syha/eclipse/android-sdk-linux/platforms/android-22/android.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MrMiner/platforms/android-10/android.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/home/mrminer/Dropbox (Byulbram Studio)/LoneWolves/Syha/lib/luaj-3.0.1/lib/luaj-jse-3.0.1.jar">
+	<classpathentry kind="lib" path="D:/dev/drop/Dropbox (Byulbram Studio)/LoneWolves/Syha/newWorkSpace/lib/luaj-jse-3.0-beta1.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/media/Live/dev/Programing/lib/luaj-3.0-beta1/docs/api/"/>
 		</attributes>
