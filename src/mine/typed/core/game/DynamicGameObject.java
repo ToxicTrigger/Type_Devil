@@ -4,8 +4,8 @@ import mine.typed.GL.GLGame;
 import mine.typed.core.V2;
 
 public class DynamicGameObject extends GameObject {
-    public final V2 velocity;
-    public final V2 accel;
+    public  V2 velocity;
+    public  V2 accel;
 
     public HitBox hitbox;
 
@@ -47,24 +47,22 @@ public class DynamicGameObject extends GameObject {
     /**
      * 충돌 박스가 좌표에 맞도록 수시로 업데이트 합니다.
      */
-    private void updateHitBox() throws Exception {
-	if (this.bounds == null) {
-	    GLGame.getlogger()
-		    .printMsg(this, TYPE_DYNAMIC_GAME_OBJECT, "this check type is not Rectangle. \n may-be Circle?");
-	} else {
-	    this.hitbox.lowerLeft
-		    .set(this.position.x - (this.bounds.width / 2), this.position.y - (this.bounds.height / 2));
+    public void updateHitBox(){
+
+	    this.cir.center.set(position);
+
+	    this.hitbox.lowerLeft.set(this.getPosition().x - (this.bounds.width / 2), this.getPosition().y - (this.bounds.height / 2));
+	
+    }
+    
+    public void move(int V2UpStopDown, float delta, float accel, V2 pos, int axis){
+	Transfer.move(V2UpStopDown, delta, accel, position, axis);
+	
+	for(GameObject tmp : this.descendants){
+	    Transfer.move(V2UpStopDown, delta, accel, tmp.position, axis);
 	}
     }
-
-    public void updateHitBoxLowerLeft() {
-	try {
-	    this.updateHitBox();
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
-    }
-
+    
     /**
      * 충돌 체크가 원 인 객체를 생성 합니다.
      * 
@@ -93,7 +91,7 @@ public class DynamicGameObject extends GameObject {
 
     @Override
     public String toString() {
-	return "DynamicGameObject [velocity=" + velocity + ", accel=" + accel + ", hitbox=" + hitbox + ", position=" + position + ", id=" + id + "]";
+	return "DynamicGameObject [velocity=" + velocity + ", accel=" + accel + ", hitbox=" + hitbox + ", position=" + getPosition() + ", id=" + id + "]";
     }
 
 }

@@ -40,6 +40,7 @@ public class TypeLogger {
     int hour;
     int min;
     long sec;
+    int mill;
 
     String errMsg;
 
@@ -93,6 +94,7 @@ public class TypeLogger {
 	this.hour = this.c.get(Calendar.HOUR_OF_DAY);
 	this.min = this.c.get(Calendar.MINUTE);
 	this.sec = this.c.get(Calendar.SECOND);
+	this.mill = c.get(Calendar.MILLISECOND);
 
 	System.out
 		.print(this
@@ -116,8 +118,22 @@ public class TypeLogger {
      * @return
      */
     public String getDataString() {
+	this.year = this.c.get(Calendar.YEAR);
+	this.month = this.c.get(Calendar.MONTH);
+	this.day = this.c.get(Calendar.DAY_OF_MONTH);
+	this.hour = this.c.get(Calendar.HOUR_OF_DAY);
+	this.min = this.c.get(Calendar.MINUTE);
+	this.sec = this.c.get(Calendar.SECOND);
+	this.mill = c.get(Calendar.MILLISECOND);
 
-	return "#================================== \n" + this.year + " / " + this.month + " / " + this.day + " / " + this.hour + "/ " + this.min + "/ " + this.sec + "/ \n";
+	return ""+
+		this.year + " / " +
+		this.month + " / " + 
+		this.day + " / " + 
+		this.hour + ":" + 
+		this.min + ":" + 
+		this.sec + "." +
+		this.mill;
     }
 
     /**
@@ -130,7 +146,11 @@ public class TypeLogger {
     public String getMsgString(final Object o, final String Type,
 	    final String Msg) {
 
-	return this.getDataString() + this.getClassNameSting(o) + "\n" + Type + " Message is : " + Msg + "\n#==================================\n";
+	return "#==================================\n" +
+	this.getDataString() +"\n"+
+		this.getClassNameSting(o) + "\n" + 
+	Type + " Message is : " + Msg +
+	"\n#==================================\n";
     }
 
     /**

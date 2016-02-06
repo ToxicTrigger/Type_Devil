@@ -4,7 +4,6 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import mine.tools.debug.TypeLogger;
-import mine.typed.core.Screen;
 import mine.typed.core.Type.TypeAudio;
 import mine.typed.core.Type.TypeFileIO;
 import mine.typed.core.Type.TypeInput;
@@ -12,7 +11,7 @@ import mine.typed.core.interfaces.Audio;
 import mine.typed.core.interfaces.FileIO;
 import mine.typed.core.interfaces.Game;
 import mine.typed.core.interfaces.Input;
-import mine.typed.core.lua.LuaHelper;
+
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
@@ -60,10 +59,7 @@ public abstract class GLGame extends Activity implements Game, Renderer {
 
 	// Lua 의 사용 여부 설정
 	// DevLevel 에서는 사용함. public 레벨에선 상속후 불러와 따로 설정하면 됨
-	LuaHelper.setLuaUsable(true);
-	this.setPublicLuaModeOffer();
-	// --------------------
-	isPublicModeUsable = GLGame.useLuaMode();
+
 	// --------------------
 
 	this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -83,31 +79,6 @@ public abstract class GLGame extends Activity implements Game, Renderer {
 
     }
 
-    /**
-     * 해당 게임의 엑티비티가 모드를 사용하는지에 대한 여부를 설정하면 됨
-     */
-    public abstract void setModUsable(boolean LuaModeUsable);
-
-    /**
-     * 해당 메서드는 단순히 모드의 사용여부를 확인, 확정하기 위해 작동함.
-     */
-    public static boolean useLuaMode() {
-	if (LuaHelper.hasLuaUsable()) {
-	    if (LuaHelper.hasLuaModeUsable()) {
-		GLGame.isPublicModeUsable = true;
-		return true;
-	    } else {
-		GLGame.isPublicModeUsable = false;
-	    }
-	}
-	GLGame.isPublicModeUsable = false;
-	return false;
-    }
-
-    /**
-     * <code> LuaHelper.setLuaModeUsable(boolean) <code> 를 호출하고 설정하도록 설계
-     */
-    public abstract void setPublicLuaModeOffer();
 
     @Override
     public void onResume() {
@@ -147,12 +118,17 @@ public abstract class GLGame extends Activity implements Game, Renderer {
 	    delta = (System.nanoTime() - GLGame.startTime) / 1000000000.0f;
 	    final float del = delta;
 	    GLGame.startTime = System.nanoTime();
+	    
+	    if(screen.time >= screen.getMessageTick()){
+		screen.getMessage();
+		screen.time = 0;
+	    }else{
+		screen.time += del;
+	    }
 
-	    this.screen.update(del);
-
-	    this.screen.drawBackBuffer(del);
-	    this.screen.present(del);
-	    this.screen.drawUpBuffer(del);
+	    this.screen.updateFinally(del);
+	    
+	    this.screen.callRenderers(del, this.getGLGraphics().getGL());
 
 	    this.screen.lateUpdate(del);
 	}

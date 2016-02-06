@@ -1,6 +1,6 @@
 package mine.typed.core.interfaces;
 
-import mine.typed.core.Screen;
+import mine.typed.GL.Screen;
 
 public interface Game {
 

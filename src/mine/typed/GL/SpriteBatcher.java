@@ -3,6 +3,7 @@ package mine.typed.GL;
 import javax.microedition.khronos.opengles.GL10;
 
 import mine.typed.core.V2;
+import mine.typed.core.game.GameObject;
 import android.util.FloatMath;
 
 /**
@@ -218,6 +219,10 @@ public class SpriteBatcher {
 	this.verticesBuffer[this.bufferIndex++] = region.v1;
 
 	this.numSprites++;
+    }
+    
+    public void drawSprite(GameObject obj, TextureRegion region){
+	this.drawSprite(obj.getPosition(), obj.bounds.width, obj.bounds.height, obj.angle, region);
     }
 
     public void drawSprite(V2 pos, final float width, final float height,

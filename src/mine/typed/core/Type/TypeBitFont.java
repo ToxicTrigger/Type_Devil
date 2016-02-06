@@ -3,6 +3,7 @@ package mine.typed.core.Type;
 import mine.typed.GL.SpriteBatcher;
 import mine.typed.GL.Texture;
 import mine.typed.GL.TextureRegion;
+import mine.typed.core.game.Text;
 
 /**
  * 이미지를 사용하여 글씨를 출력하도록 해주는 기능을 구현한 클래스
@@ -46,6 +47,10 @@ public class TypeBitFont {
 		y += glyphHeight;
 	    }
 	}
+    }
+    
+    public void drawText(SpriteBatcher batcher, Text text){
+	this.drawText(batcher, text.text, text.getPosition().x, text.getPosition().y, text.getFontSize(), text.getFontSize(), text.angle);
     }
 
     /**

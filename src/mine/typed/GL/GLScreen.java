@@ -1,6 +1,5 @@
 package mine.typed.GL;
 
-import mine.typed.core.Screen;
 import mine.typed.core.interfaces.Game;
 
 /**
@@ -14,11 +13,14 @@ public abstract class GLScreen extends Screen {
     protected final GLGraphics gLGraphics;
     protected final GLGame glgame;
 
-    public GLScreen(final Game game) {
+    public GLScreen(final Game game,int MinPriority) {
 
-	super(game);
+	super(game, MinPriority);
 	this.glgame = (GLGame) game;
-	this.gLGraphics = ((GLGame) game).getGLGraphics();
+	if(game != null)
+	    this.gLGraphics = ((GLGame) game).getGLGraphics();
+	else
+	    this.gLGraphics = null;
     }
 
     @Override
@@ -26,16 +28,7 @@ public abstract class GLScreen extends Screen {
 
     @Override
     public abstract void pause();
-
-    @Override
-    public abstract void drawUpBuffer(float deltaTime);
-
-    @Override
-    public abstract void present(float arg0);
-
-    @Override
-    public abstract void drawBackBuffer(float deltaTime);
-
+    
     @Override
     public abstract void resent(float arg0);
 

@@ -1,5 +1,7 @@
 package mine.typed.GL;
 
+import mine.typed.core.Rectangle;
+
 /**
  * 스프라이트 애니메이션을 구현했습니다.
  * 
@@ -25,8 +27,32 @@ public class Animation {
      *            동작하는 방법은 선언후 , {@link SpriteBatcher}.Draw 를 호출할때
      *            {@link TextureRegion} 값을 넣는 곳에 getKeyFrame() 을 넣어주면 된다.
      */
-    public Animation(final float frameDuration,
-	    final TextureRegion... keyFrames) {
+    public Animation(final float frameDuration, final TextureRegion... keyFrames) {
+	this.frameDuration = frameDuration;
+	this.keyFrames = keyFrames;
+    }
+    
+    /**
+     * 
+     * @param frameDuration
+     * @param tex
+     * @param SpriteNumber
+     * @param Sprite
+     */
+    public Animation(float frameDuration, Texture tex,int SpriteNumber ,Rectangle Sprite){
+	TextureRegion[] keyFrames = new TextureRegion[SpriteNumber];
+	
+	float x, y;
+	x = Sprite.lowerLeft.x;
+	y = Sprite.lowerLeft.y;
+	
+	int texX = 1;
+	for (int i = 0; i < SpriteNumber; i++) {
+	    TextureRegion tmp = new TextureRegion(tex, x*texX, y, Sprite.width, Sprite.height);
+	    texX ++;
+	    keyFrames[i] = tmp;
+	}
+	
 	this.frameDuration = frameDuration;
 	this.keyFrames = keyFrames;
     }

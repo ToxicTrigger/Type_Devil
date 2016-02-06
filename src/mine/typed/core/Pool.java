@@ -14,7 +14,7 @@ public class Pool<T> {
 
     public final List<T> freeOBJ;
     /**
-     * 객체의 타입에 관여하지 않도록 하기 위해 만들어진 일종의 템플릿
+     * 객체의 타입에 관여하지 않도록 하기 위해 만들어진 템플릿
      */
     public final PoolObjectFactory<T> factory;
     public final int maxSize;

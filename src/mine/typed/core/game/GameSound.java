@@ -67,37 +67,37 @@ public class GameSound extends DynamicGameObject {
 
 	if (this.sound != null) {
 	    // 화면 밖에 있다고 가정 했을때.
-	    if (this.position.dist(objPos) > ScreenW) {
+	    if (this.getPosition().dist(objPos) > ScreenW) {
 		l = 0;
 		r = 0;
 		this.sound.setVolume(l, r);
 	    } else {
 
-		final float x = objPos.x - this.position.x;
+		final float x = objPos.x - this.getPosition().x;
 		if (x > 0) {
-		    l = 1.0f - (objPos.dist(this.position) / ScreenW);
-		    r = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
+		    l = 1.0f - (objPos.dist(this.getPosition()) / ScreenW);
+		    r = 1.0f - (objPos.dist(this.getPosition()) / (ScreenW / 2));
 		} else {
-		    l = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
-		    r = 1.0f - (objPos.dist(this.position) / ScreenW);
+		    l = 1.0f - (objPos.dist(this.getPosition()) / (ScreenW / 2));
+		    r = 1.0f - (objPos.dist(this.getPosition()) / ScreenW);
 		}
 		((Music) this.sound).setVolume(l, r);
 
 	    }
 	} else {
 	    // 화면 밖에 있다고 가정 했을때.
-	    if (this.position.dist(objPos) > ScreenW) {
+	    if (this.getPosition().dist(objPos) > ScreenW) {
 		l = 0;
 		r = 0;
 		this.music.setVolume(l, r);
 	    } else {
-		final float x = objPos.x - this.position.x;
+		final float x = objPos.x - this.getPosition().x;
 		if (x > 0) {
-		    l = 1.0f - (objPos.dist(this.position) / ScreenW);
-		    r = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
+		    l = 1.0f - (objPos.dist(this.getPosition()) / ScreenW);
+		    r = 1.0f - (objPos.dist(this.getPosition()) / (ScreenW / 2));
 		} else {
-		    l = 1.0f - (objPos.dist(this.position) / (ScreenW / 2));
-		    r = 1.0f - (objPos.dist(this.position) / ScreenW);
+		    l = 1.0f - (objPos.dist(this.getPosition()) / (ScreenW / 2));
+		    r = 1.0f - (objPos.dist(this.getPosition()) / ScreenW);
 		}
 		this.music.setVolume(l, r);
 	    }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import mine.typed.core.Tube;
-import android.annotation.SuppressLint;
+
 
 /**
  * 해당 클래스는 다중 제어를 수행한다.
@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
  * @author mrminer
  *
  */
-@SuppressLint("UseSparseArrays")
 public class FlagMaster {
 
     /**

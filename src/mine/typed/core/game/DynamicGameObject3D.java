@@ -55,7 +55,7 @@ public class DynamicGameObject3D extends GameObject {
 
     @Override
     public String toString() {
-	return "DynamicGameObject3D [velocity=" + velocity + ", accel=" + accel + ", mcb=" + mcb + ", position=" + position + ", id=" + id + "]";
+	return "DynamicGameObject3D [velocity=" + velocity + ", accel=" + accel + ", mcb=" + mcb + ", position=" + getPosition() + ", id=" + id + "]";
     }
 
 }

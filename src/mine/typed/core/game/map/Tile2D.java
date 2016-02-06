@@ -94,7 +94,7 @@ public class Tile2D extends GameObject {
 
     @Override
     public String toString() {
-	return "Tile2D [TileType=" + this.TileType + ", pass=" + this.pass + ", x=" + this.position.x + ", y=" + this.position.y + ", w=" + this.bounds.width + ", h=" + this.bounds.height + "]\n";
+	return "Tile2D [TileType=" + this.TileType + ", pass=" + this.pass + ", x=" + this.getPosition().x + ", y=" + this.getPosition().y + ", w=" + this.bounds.width + ", h=" + this.bounds.height + "]\n";
     }
 
 }
