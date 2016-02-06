@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
@@ -7,3 +8,17 @@
 	<classpathentry exported="true" kind="lib" path="/run/media/toxic/LiveDisk/dev/drop/Dropbox (Byulbram Studio)/LoneWolves/Syha/lib/json_simple-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/MrMiner/platforms/android-10/android.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="D:/dev/drop/Dropbox (Byulbram Studio)/LoneWolves/Syha/newWorkSpace/lib/luaj-jse-3.0-beta1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/media/Live/dev/Programing/lib/luaj-3.0-beta1/docs/api/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
+>>>>>>> b9d44b4b47440ece10aea5b44e79c5df179921cc

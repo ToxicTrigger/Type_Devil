@@ -13,6 +13,7 @@ public abstract class GLScreen extends Screen {
     protected final GLGraphics gLGraphics;
     protected final GLGame glgame;
 
+<<<<<<< HEAD
     public GLScreen(final Game game,int MinPriority) {
 
 	super(game, MinPriority);
@@ -21,21 +22,31 @@ public abstract class GLScreen extends Screen {
 	    this.gLGraphics = ((GLGame) game).getGLGraphics();
 	else
 	    this.gLGraphics = null;
+=======
+    public GLScreen(final Game game,int rendererMinPriority ) {
+    	super(game, rendererMinPriority);
+    	this.glgame = (GLGame) game;
+    	this.gLGraphics = ((GLGame) game).getGLGraphics();
+>>>>>>> b9d44b4b47440ece10aea5b44e79c5df179921cc
     }
+    
 
     @Override
     public abstract void dispose();
 
     @Override
     public abstract void pause();
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> b9d44b4b47440ece10aea5b44e79c5df179921cc
     @Override
     public abstract void resent(float arg0);
 
     @Override
     public abstract void resume();
-
-    // present 보다 먼저 호출 됨
+    
     @Override
     public abstract void update(float arg0);
 

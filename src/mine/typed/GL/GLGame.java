@@ -128,7 +128,11 @@ public abstract class GLGame extends Activity implements Game, Renderer {
 
 	    this.screen.updateFinally(del);
 	    
+<<<<<<< HEAD
 	    this.screen.callRenderers(del, this.getGLGraphics().getGL());
+=======
+	    this.screen.callRenderers(del);
+>>>>>>> b9d44b4b47440ece10aea5b44e79c5df179921cc
 
 	    this.screen.lateUpdate(del);
 	}
